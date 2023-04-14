@@ -53,7 +53,7 @@ def parse_temp():
     else:
         print("Error: could not read sensor directory")
         return
-print(parse_temp()) # this is working at the moment
+#print(parse_temp()) # this is working at the moment
 
 def running_temp(duration): # duration in seconds
     timer = 0
@@ -63,18 +63,18 @@ def running_temp(duration): # duration in seconds
         timer += 1
 
 
-running_temp(10)
+#running_temp(10)
 
 
 
 
 # try the thermsensor library
 
-# sens1 = W1ThermSensor()
+sens1 = W1ThermSensor()
 
-#print(sens1.id) # hey it works
+print(sens1.id) # hey it works
 
-#print(sens1.get_temperature())
+print(sens1.get_temperature())
 
 #print(r2.getID(1))
 
