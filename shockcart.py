@@ -4,7 +4,7 @@ import piplates.RELAYplate2 as r2
 import piplates.DAQC2plate as d2
 import piplates.THERMOplate as th
 from time import sleep
-from threading import *
+import threading, multiprocessing
 
 
 class Shockcart():
@@ -37,8 +37,9 @@ class Shockcart():
         # cycle_time parameter is in minutes ie 30 minutes
         # cycle_count indicates how many cycles, a cycle is 1 hot and 1 cold 
         self.cycle_count = cycle_count
-        self.cycle_time = cycle_count # this defaults to 30 minutes and shouldn't need to change anything
-        
+        self.cycle_time = cycle_time # this defaults to 30 minutes and shouldn't need to change anything
+
+        self.process = multiprocessing.Process(target=self.run_loop)
 
     def fill(self,enable):
         # fill is going to go IN through the COLD_OUTLET
@@ -54,19 +55,21 @@ class Shockcart():
     
     def relay_plate_reset(self):
         r2.RESET(1)
-
+        r2.relayON(1,2)# try to always set the cold loop bypass on because I cant control the pump on chiller yet
+    
     def hot_loop_enable(self,enabled = False): # default to off
+        r2.RESET(1)
         if enabled:
             r2.relayON(1,self.hot_in)
             r2.relayON(1,self.hot_out)
             r2.relayON(1,self.cold_bypass)
         else:
-            r2.relayON(1,self.hot_in)
-            r2.relayON(1,self.hot_out)
-            r2.relayON(1,self.cold_bypass)
-            
-        
-    def cold_loop_enabled(self,enabled = False): # default to off
+            r2.relayOFF(1,self.hot_in)
+            r2.relayOFF(1,self.hot_out)
+            r2.relayOFF(1,self.cold_bypass)
+                
+    def cold_loop_enable(self,enabled = False): # default to off
+        r2.RESET(1)
         if enabled:
             r2.relayON(1,self.cold_in)
             r2.relayON(1,self.cold_out)
@@ -77,9 +80,12 @@ class Shockcart():
             r2.relayOFF(1,self.hot_bypass)
 
     
-    def convert_seconds(self):
-        minutes = self.cycle_time
+    def convert_seconds(self,minutes):
+        print(minutes)
+        if not minutes:
+            minutes = self.cycle_time
         seconds = minutes * 60
+        print(seconds)
         return seconds
     
     def start_pump(self):
@@ -100,29 +106,100 @@ class Shockcart():
         self.binary = format(integer, 'b')
         print(integer,self.binary)
     
-    def full_bypass(self):
-        r2.RESET(1)
-        r2.relayON(1,self.hot_bypass)
-        r2.relayON(1,self.cold_bypass)
-    
+    def full_bypass(self,enabled=False):
+        if enabled:
+            r2.RESET(1)
+            r2.relayON(1,self.hot_bypass)
+            r2.relayON(1,self.cold_bypass)
+        else:
+            r2.relayOFF(1,self.hot_bypass)
+            r2.relayOFF(1,self.cold_bypass)
+            
     def all_on(self):
         r2.RESET(1)
         r2.relayALL(1,255)
 
-    def run(self):
+    def run_loop(self):
         self.counter = 1 
+        sec = self.convert_seconds # so you can like locally rename a self.object in a function for compact function calls
+        cycle_time = self.cycle_time
         while self.counter <= self.cycle_count:
-            # by default will run hot loop first
+            print(f"while start\nCounter={self.counter}/{self.cycle_count}") 
+
+            ####HOT##############
             self.hot_loop_enable(True)
+            print("HOT wait 5 seconds")
             sleep(5) # wait 5 seconds before turning on pump
             r2.relayON(1,self.pump) # check manual switch
-            sleep(self.cycle_time)
-            r2.relayOFF(1,self.pump)
-            self.hot_loop_enable(False)
-            self.cold_loop_enabled(True)
+            sleep(sec(cycle_time))  
+            r2.relayOFF(1,self.pump) # turn pump off after cycle time
+            self.hot_loop_enable(False) # disable hot loop
+            self.full_bypass(True) # open both bypasses
+
+            ##########COLD##############
+            self.cold_loop_enable(True)
+            print("COLD: wait 5 seconds")
             sleep(5)
-    
-        self.counter += 1
+            r2.relayON(1,self.pump) # hot bypass is enabled can resume hot loop 
+            sleep(sec(cycle_time))
+            r2.relayOFF(1,self.pump)
+            self.full_bypass(True)
+            self.hot_loop_enable(False)
+            
+            # increment counter 
+            self.counter += 1
+        # this will execute after cycle completes
+        self.full_bypass()
+        print("while loop done")
+
+    def run_loop_process(self):
+        if not self.process.is_alive():
+            print("starting process")
+            self.process.start()
+
+    def kill_loop_process(self):
+        if self.process.is_alive():
+            print('killing process')
+            self.process.terminate()
+            self.relay_plate_reset()
+
+
+
+
+
+
+
+
+
+                
+                
+
+                                      
+
+            
+
+
+
+
+
+
+# try:
+#     cart1 = Shockcart(2,1)
+#     cart1.relay_plate_reset()
+#     cart1.start_run_thread(True)
+# except KeyboardInterrupt:
+#     print("crtl+c")
+#     cart1.start_run_thread(False)
+#     r2.RESET(1)
+#     r2.relayON(1,cart1.cold_bypass) # when in doubt should always try to make sure cold loop pump does not dead head
+
+
+
+
+
+
+
+
         
 
 
@@ -131,11 +208,6 @@ class Shockcart():
 
 
 
-
-cart1 = Shockcart(5)
-#cart1.hot_loop_enable()
-#cart1.all_on()
-cart1.start_pump()  
 
 
             
