@@ -3,8 +3,8 @@ from w1thermsensor import W1ThermSensor
 import piplates.RELAYplate2 as r2
 import piplates.DAQC2plate as d2
 import piplates.THERMOplate as th
-from time import sleep
-import threading, multiprocessing
+
+import threading, multiprocessing, time
 
 
 class Shockcart():
@@ -79,7 +79,6 @@ class Shockcart():
             r2.relayOFF(1,self.cold_out)
             r2.relayOFF(1,self.hot_bypass)
 
-    
     def convert_seconds(self,minutes):
         print(minutes)
         if not minutes:
@@ -129,9 +128,9 @@ class Shockcart():
             ####HOT##############
             self.hot_loop_enable(True)
             print("HOT wait 5 seconds")
-            sleep(5) # wait 5 seconds before turning on pump
+            time.sleep(5) # wait 5 seconds before turning on pump
             r2.relayON(1,self.pump) # check manual switch
-            sleep(sec(cycle_time))  
+            time.sleep(sec(cycle_time))  
             r2.relayOFF(1,self.pump) # turn pump off after cycle time
             self.hot_loop_enable(False) # disable hot loop
             self.full_bypass(True) # open both bypasses
@@ -139,9 +138,9 @@ class Shockcart():
             ##########COLD##############
             self.cold_loop_enable(True)
             print("COLD: wait 5 seconds")
-            sleep(5)
+            time.sleep(5)
             r2.relayON(1,self.pump) # hot bypass is enabled can resume hot loop 
-            sleep(sec(cycle_time))
+            time.sleep(sec(cycle_time))
             r2.relayOFF(1,self.pump)
             self.full_bypass(True)
             self.hot_loop_enable(False)
@@ -163,58 +162,9 @@ class Shockcart():
             self.process.terminate()
             self.relay_plate_reset()
 
+    def read_temp_test(self):
+        chan1= f"Channel 1: {str(th.getTEMP(2,1))} C"
+        chan2 = f"Channel 2: {str(th.getTEMP(2,2))} C"
+        return chan1, chan2
 
 
-
-
-
-
-
-
-                
-                
-
-                                      
-
-            
-
-
-
-
-
-
-# try:
-#     cart1 = Shockcart(2,1)
-#     cart1.relay_plate_reset()
-#     cart1.start_run_thread(True)
-# except KeyboardInterrupt:
-#     print("crtl+c")
-#     cart1.start_run_thread(False)
-#     r2.RESET(1)
-#     r2.relayON(1,cart1.cold_bypass) # when in doubt should always try to make sure cold loop pump does not dead head
-
-
-
-
-
-
-
-
-        
-
-
-
-        
-
-
-
-
-
-            
-            
-            
-
-
-
-
-        
