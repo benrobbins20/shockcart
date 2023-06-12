@@ -1,5 +1,4 @@
 # shockcart file with Shockcart() class
-from w1thermsensor import W1ThermSensor
 import piplates.RELAYplate2 as r2
 import piplates.DAQC2plate as d2
 import piplates.THERMOplate as th
@@ -36,6 +35,7 @@ class Shockcart():
 
         # cycle_time parameter is in minutes ie 30 minutes
         # cycle_count indicates how many cycles, a cycle is 1 hot and 1 cold 
+        self.counter = 1
         self.cycle_count = cycle_count
         self.cycle_time = cycle_time # this defaults to 30 minutes and shouldn't need to change anything
 
@@ -87,7 +87,7 @@ class Shockcart():
         print(seconds)
         return seconds
     
-    def start_pump(self):
+    def relay_status(self):
         # heres a fun one 
         # below is a list of pump run criteria
         # list of integers that can be interpreted as 8 bit binary 
@@ -117,9 +117,11 @@ class Shockcart():
     def all_on(self):
         r2.RESET(1)
         r2.relayALL(1,255)
+        
+    def all_off(self):
+        r2.RESET(1)
 
     def run_loop(self):
-        self.counter = 1 
         sec = self.convert_seconds # so you can like locally rename a self.object in a function for compact function calls
         cycle_time = self.cycle_time
         while self.counter <= self.cycle_count:
@@ -167,4 +169,10 @@ class Shockcart():
         chan2 = f"Channel 2: {str(th.getTEMP(2,2))} C"
         return chan1, chan2
 
+    def get_counter(self,):
+        return self.counter
+    
+    def toggle_relay(self,num):
+        r2.relayOn(1,num)
+        
 

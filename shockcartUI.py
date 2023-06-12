@@ -20,8 +20,11 @@ cart1 = Shockcart(3,5) # instance of shockcart args(cycle_count,cycle_time)
 app = tk.Tk()
 temp_data = tk.StringVar()
 counter_num =tk.StringVar()
-info_frame = tk.Frame(app,bg="light blue",bd=5,relief="ridge")
-button_frame = tk.Frame(app,bg="light green",bd=5,relief="groove")
+info_frame = tk.Frame(app,bg="light blue",border=5,relief="groove")
+button_frame = tk.Frame(app,bg="light green",border=5,relief="groove")
+pad_frame = tk.Frame(app,bg="light pink",border=5,relief="groove")
+
+
 
 fill_button = ttk.Button(
     button_frame,
@@ -85,7 +88,7 @@ def update_counter():
     counter_num.set(f"Cycle Count\n{new_counter_num}/{cart1.cycle_count}")
     app.after(1000,update_counter)
 
-
+toggle_button = tk.Button(pad_frame,text="test")
 
 ###############PACK###################
 button_frame.pack(side="left",expand="true",fill="both")
@@ -103,6 +106,8 @@ update_temp_data()
 counter_label.pack()
 update_counter()
 
+pad_frame.pack(side="bottom",expand="true",fill="both")
+toggle_button.pack()
 
 try:
     app.title('Shockcart')
