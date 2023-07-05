@@ -5,35 +5,37 @@ import cantools.database.can.signal as cansig
 import os
 
 
-# Loads all DBCs from the folder 'dbc' into the database
-# this is the method used by hwi/danfoss dyno app
-# was using load_file method instead of add_file
-# this adds all dbc's in a folder "./dbc"
+
 def load_dbc():
+    # Loads all DBCs from the folder 'dbc' into the database
+    # this is the method used by hwi/danfoss dyno app
+    # was using load_file method instead of add_file
+    # this adds all dbc's in a folder "./dbc"
     global db
     db = cantools.database.Database()
     for file in os.listdir('./dbc'):
         #print(file)
         if file.endswith('.dbc'):
             db.add_dbc_file('./dbc/'+file)
-# create a bus instance with python-can library
-# MUST HAVE can0 interface up and started
-# pi is set up to do this automatically on boot
-# edit /etc/network/interfaces
-###################
-# allow-hotplug can0
-# iface can0 inet manual
-# pre-up /sbin/ip link set $IFACE type can bitrate 500000
-# up /sbin/ifconfig $IFACE up
-# down /sbin/ifconfig $IFACE down
-###################
 
 def createSocket(enabled=False):
+    # create a bus instance with python-can library
+    # MUST HAVE can0 interface up and started
+    # pi is set up to do this automatically on boot
+    # edit /etc/network/interfaces
+    ###################
+    # allow-hotplug can0
+    # iface can0 inet manual
+    # pre-up /sbin/ip link set $IFACE type can bitrate 500000
+    # up /sbin/ifconfig $IFACE up
+    # down /sbin/ifconfig $IFACE down
+    ###################
     global bus
     if enabled:
         bus = can.interface.Bus("can0", bustype='socketcan')
     else:
         bus.shutdown()
+        
 def readInverterTemp():
     while True:
         try:
