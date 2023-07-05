@@ -49,7 +49,10 @@ def readInverterTemp():
         except KeyError:
             # key error exception will result if arb_id is not on the canbus 
             pass
-
-load_dbc()
-createSocket(True)
-readInverterTemp()
+try:
+    load_dbc()
+    createSocket(True)
+    readInverterTemp()
+except KeyboardInterrupt:
+    createSocket(False)
+    
