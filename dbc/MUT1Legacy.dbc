@@ -1,0 +1,472 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: MasterNode MUT1Node
+
+
+BO_ 2230255874 m1_AccurateFeedback: 8 MUT1Node
+ SG_ af_m1_Torque : 0|16@1+ (0.1,-3212.8) [-3212.8|3212.8] "Nm"  MUT1Node,MasterNode
+ SG_ af_m1_Voltage : 16|16@1+ (0.1,-3212.8) [-3212.8|3212.8] "Volts"  MUT1Node,MasterNode
+ SG_ af_m1_Current : 32|16@1+ (0.1,-3212.8) [-3212.8|3212.8] "Amps"  MUT1Node,MasterNode
+ SG_ af_m1_Speed : 48|16@1+ (0.5,-16064) [-16064|16064] "rpm"  MUT1Node,MasterNode
+
+BO_ 2297364738 m1_SystemStatusMessage: 8 MUT1Node
+ SG_ ss_m1_NotEnabled : 0|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_OverLegCurrent : 1|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_OverBusCurrent : 2|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_OverPhaseAdvance : 3|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_UnderVoltageWarning : 4|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_RotorOverTemp : 5|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_StatorOverTemp : 6|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_InverterOverTemp : 7|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_OverSpeedWarning : 8|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_OverVoltageWarning : 9|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_OverSpeedAlarm : 10|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_OverVoltageAlarm : 11|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_AdcCalProblem : 12|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_LimpHomeMode : 13|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_InvFaultOccurred : 14|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_InverterFault : 15|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_NotEnabled_Hist : 16|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_OverLegCurrent_Hist : 17|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_OverBusCurrent_Hist : 18|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_OverPhaseAdv_Hist : 19|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_UnderVoltage_Hist : 20|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_RotorOverTemp_Hist : 21|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_StatorOverTemp_Hist : 22|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_InvOverTemp_Hist : 23|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_OverSpeedWarn_Hist : 24|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_OverVoltWarn_Hist : 25|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_OverSpeedAlarm_Hist : 26|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_OverVoltAlarm_Hist : 27|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_AdcCalProblem_Hist : 28|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_LimpHomeMode_Hist : 29|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_InvFaultOccurd_Hist : 30|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_InverterFault_Hist : 31|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_ControlMode : 32|3@1+ (1,0) [0|7] "Enum"  MUT1Node,MasterNode
+ SG_ ss_m1_VbemfOffset : 36|4@1+ (2,-22) [-22|8] "V"  MasterNode,MUT1Node
+ SG_ ss_m1_PosOffsetDelta : 40|8@1+ (1,-128) [-128|127] "Count"  MUT1Node,MasterNode
+ SG_ ss_m1_ForceVoltageControl : 48|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_CANLimiting : 49|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_DisabledInMotion : 50|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_ABCPhaseOrder : 51|1@1+ (1,0) [0|1] "Enum"  MUT1Node,MasterNode
+ SG_ ss_m1_RegenSwOpen : 52|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_CurTripFltIbusIleg : 53|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_ActiveDampAccelLim : 54|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_UsingRawSpeed : 55|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_TurboMode : 56|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_ForcedOpenLoop : 57|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_StallConditionsActive : 58|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_PhaseCurSenErr : 59|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_BadPositionSignal : 60|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_BadSwitch : 61|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_InvalidPowerSupply : 62|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ ss_m1_PowerSwOff : 63|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+
+BO_ 2431582466 m1_Diagnostics: 8 MUT1Node
+ SG_ di_m1_MessageEnum M : 0|4@1+ (1,0) [0|15] "Enum"  MUT1Node,MasterNode
+ SG_ di_m1_MessageNumber : 4|4@1+ (1,0) [0|15] "Enum"  MUT1Node,MasterNode
+ SG_ di_m1_5_12msCounter m1 : 8|8@1+ (1,0) [0|255] "Count"  MUT1Node,MasterNode
+ SG_ di_m1_PhaseAdvDes m1 : 16|16@1+ (0.1,-3212.8) [-3212.8|3212.8] "°E"  MUT1Node,MasterNode
+ SG_ di_m1_PhaseAdvAct m1 : 32|16@1+ (0.1,-3212.8) [-3212.8|3212.8] "°E"  MUT1Node,MasterNode
+ SG_ di_m1_AccelLimit m1 : 48|16@1+ (0.1,-3212.8) [-3212.8|3212.8] "rpm/s"  MUT1Node,MasterNode
+ SG_ di_m1_ElectCycleMechCount m2 : 8|8@1+ (1,0) [0|255] "Count"  MUT1Node,MasterNode
+ SG_ di_m1_VdIntegrator m2 : 16|16@1+ (0.0001,-3.2128) [-3.2128|3.2128] "V"  MUT1Node,MasterNode
+ SG_ di_m1_VqIntegrator m2 : 32|16@1+ (0.0001,-3.2128) [-3.2128|3.2128] "V"  MUT1Node,MasterNode
+ SG_ di_m1_LegCurrentSeperation m2 : 48|16@1+ (0.0001,-3.2128) [-3.2128|3.2128] "A"  MUT1Node,MasterNode
+ SG_ di_m1_ControlConditions m3 : 8|8@1+ (1,0) [0|255] "Enum"  MUT1Node,MasterNode
+ SG_ di_m1_IdRef m3 : 16|16@1+ (0.0001,-3.2128) [-3.2128|3.2128] "A"  MUT1Node,MasterNode
+ SG_ di_m1_IdAverage m3 : 32|16@1+ (0.0001,-3.2128) [-3.2128|3.2128] "A"  MUT1Node,MasterNode
+ SG_ di_m1_IdNoise m3 : 48|16@1+ (0.0001,-3.2128) [-3.2128|3.2128] "%"  MUT1Node,MasterNode
+ SG_ di_m1_HallState m4 : 8|8@1+ (1,0) [0|255] "Enum"  MUT1Node,MasterNode
+ SG_ di_m1_IqRef m4 : 16|16@1+ (0.0001,-3.2128) [-3.2128|3.2128] "A"  MUT1Node,MasterNode
+ SG_ di_m1_IqAverage m4 : 32|16@1+ (0.0001,-3.2128) [-3.2128|3.2128] "A"  MUT1Node,MasterNode
+ SG_ di_m1_IqNoise m4 : 48|16@1+ (0.0001,-3.2128) [-3.2128|3.2128] "%"  MUT1Node,MasterNode
+ SG_ di_m1_PWMFrequency m5 : 8|4@1+ (1,0) [0|15] "Enum"  MUT1Node,MasterNode
+ SG_ di_m1_LegCurrentSum m5 : 16|16@1+ (0.0001,-3.2128) [-3.2128|3.2128] "A"  MUT1Node,MasterNode
+ SG_ di_m1_FastLoopCount m5 : 32|32@1+ (1,0) [0|0] "Count"  MUT1Node,MasterNode
+ SG_ di_m1_ILegTripCnt m6 : 8|8@1+ (1,0) [0|255] "Count"  MUT1Node,MasterNode
+ SG_ di_m1_MaxSinkCurrent m6 : 16|8@1+ (5,0) [0|1275] "Amp"  MUT1Node,MasterNode
+ SG_ di_m1_MaxSourceCurrent m6 : 24|8@1+ (5,0) [0|1275] "Amp"  MUT1Node,MasterNode
+ SG_ di_m1_MaxRegenTorqueAllowed m6 : 32|16@1+ (0.1,-3212.8) [-3212.8|3212.8] "Nm"  MUT1Node,MasterNode
+ SG_ di_m1_MaxDriveTorqueAllowed m6 : 48|16@1+ (0.1,-3212.8) [-3212.8|3212.8] "Nm"  MUT1Node,MasterNode
+ SG_ di_m1_LUT_Torque m7 : 16|16@1+ (0.1,-3212.8) [-3212.8|3212.8] "Nm"  MUT1Node,MasterNode
+ SG_ di_m1_LUT_Current m7 : 32|16@1+ (0.1,-3212.8) [-3212.8|3212.8] "A"  MUT1Node,MasterNode
+ SG_ di_m1_PolePairs m8 : 8|8@1+ (1,0) [0|255] "Int"  MUT1Node,MasterNode
+ SG_ di_m1_MinBatteryVoltage m8 : 16|8@1+ (5,0) [0|1275] "V"  MUT1Node,MasterNode
+ SG_ di_m1_MaxBatteryVoltage m8 : 24|8@1+ (5,0) [0|1275] "V"  MUT1Node,MasterNode
+ SG_ di_m1_MaxRegenTrq m8 : 32|8@1+ (-10,0) [-2550|0] "Nm"  MUT1Node,MasterNode
+ SG_ di_m1_MaxDriveTrq m8 : 40|8@1+ (10,0) [0|2550] "Nm"  MUT1Node,MasterNode
+ SG_ di_m1_MaxRegenPwr m8 : 48|8@1+ (-5,0) [-1275|0] "kW"  MUT1Node,MasterNode
+ SG_ di_m1_MaxDrivePwr m8 : 56|8@1+ (5,0) [0|1275] "kW"  MUT1Node,MasterNode
+ SG_ di_m1_MaxReverseSpeed m9 : 16|8@1+ (-100,0) [-25500|0] "rpm"  MUT1Node,MasterNode
+ SG_ di_m1_MaxDriveSpeed m9 : 24|8@1+ (100,0) [0|25500] "rpm"  MUT1Node,MasterNode
+ SG_ di_m1_StatorTempMax m9 : 32|8@1+ (1,0) [0|255] "°C"  MUT1Node,MasterNode
+ SG_ di_m1_StatorTempLimit m9 : 40|8@1+ (1,0) [0|255] "°C"  MUT1Node,MasterNode
+ SG_ di_m1_RotorTempMax m9 : 48|8@1+ (1,0) [0|255] "°C"  MUT1Node,MasterNode
+ SG_ di_m1_RotorTempLimit m9 : 56|8@1+ (1,0) [0|255] "°C"  MUT1Node,MasterNode
+ SG_ di_m1_InverterTempMax m10 : 16|8@1+ (1,0) [0|255] "°C"  MUT1Node,MasterNode
+ SG_ di_m1_InverterTempLimit m10 : 24|8@1+ (1,0) [0|255] "°C"  MUT1Node,MasterNode
+ SG_ di_m1_IGBTTempMax m10 : 32|8@1+ (1,0) [0|255] "°C"  MUT1Node,MasterNode
+ SG_ di_m1_IGBTTempLimit m10 : 40|8@1+ (1,0) [0|255] "°C"  MUT1Node,MasterNode
+ SG_ di_m1_SourceCurrentMax m10 : 48|8@1+ (-5,0) [-1275|0] "A"  MUT1Node,MasterNode
+ SG_ di_m1_SinkCurrentMax m10 : 56|8@1+ (5,0) [0|1275] "A"  MUT1Node,MasterNode
+ SG_ di_m1_CaseTemp m11 : 8|8@1+ (1,-40) [-40|215] "°C"  MUT1Node,MasterNode
+ SG_ di_m1_IGBTJunctionTemp m11 : 16|8@1+ (1,-40) [-40|215] "°C"  MUT1Node,MasterNode
+ SG_ di_m1_PredictedCaseTemp m11 : 24|8@1+ (1,-40) [-40|215] "°C"  MUT1Node,MasterNode
+ SG_ di_m1_PredictedCoolantTemp m11 : 32|8@1+ (1,-40) [-40|215] "°C"  MUT1Node,MasterNode
+ SG_ di_m1_SystemTime m12 : 16|32@1+ (8.3307e-05,0) [0|357800] "S"  MUT1Node,MasterNode
+
+BO_ 2431582721 m1_AccelerationLimitsCommand: 8 MasterNode
+ SG_ al_m1_AccelerationLimits : 0|1@1+ (1,0) [0|1] "Bool"  MasterNode,MUT1Node
+ SG_ al_m1_CurrentLimits : 1|1@1+ (1,0) [0|1] "Bool"  MasterNode,MUT1Node
+ SG_ al_m1_SurgeLim : 16|16@1+ (1,0) [0|32767] "RPM"  MasterNode,MUT1Node
+ SG_ al_m1_AccelLim : 32|16@1+ (1,0) [0|32767] "RPM/sec"  MasterNode,MUT1Node
+ SG_ al_m1_MaxSinkCurrent : 48|8@1+ (5,0) [0|1275] "Amp"  MasterNode,MUT1Node
+ SG_ al_m1_MaxSourceCurrent : 56|8@1+ (5,0) [0|1275] "Amp"  MasterNode,MUT1Node
+
+BO_ 2498691330 m1_LimitedTorquePercentage: 8 MUT1Node
+ SG_ ltp_m1_LegCurrent : 0|8@1+ (5,0) [0|1020] "Amps"  MUT1Node,MasterNode
+ SG_ ltp_m1_HighBound : 8|8@1+ (0.8,-100) [-100|100] "%"  MUT1Node,MasterNode
+ SG_ ltp_m1_LowBound : 16|8@1+ (0.8,-100) [-100|100] "%"  MUT1Node,MasterNode
+ SG_ ltp_m1_StallPercentage : 24|8@1+ (0.4,0) [0|100] "Percent"  MUT1Node,MasterNode
+ SG_ ltp_m1_AngularDistance : 32|16@1+ (3.75,0) [0|122876] "Degrees"  MUT1Node,MasterNode
+ SG_ ltp_m1_TorqueDesired : 48|16@1+ (0.1,-3212.8) [-3212.8|3212.8] "Nm"  MUT1Node,MasterNode
+
+BO_ 2498691585 m1_UniversalCommand: 8 MasterNode
+ SG_ uc_m1_ControlMode M : 0|4@1+ (1,0) [0|6] "Enum"  MasterNode,MUT1Node
+ SG_ uc_m1_CommandCounter : 4|4@1+ (1,0) [0|15] "Integer"  MasterNode,MUT1Node
+ SG_ uc_m1_ActiveDischarge : 8|1@1+ (1,0) [0|1] "Bool"  MasterNode,MUT1Node
+ SG_ uc_m1_UseRawSpeed : 10|1@1+ (1,0) [0|1] "Bool"  MasterNode,MUT1Node
+ SG_ uc_m1_DirOfRotation m1 : 11|1@1+ (1,0) [0|1] "Enum"  MasterNode,MUT1Node
+ SG_ uc_m1_Enable : 12|1@1+ (1,0) [0|1] "Bool"  MasterNode,MUT1Node
+ SG_ uc_m1_DisableAccLim : 13|1@1+ (1,0) [0|1] "Bool"  MasterNode,MUT1Node
+ SG_ uc_m1_TorqueRequest m1 : 16|16@1+ (0.1,-3212.8) [-3212.8|3212.8] "Nm"  MasterNode,MUT1Node
+ SG_ uc_m1_SpeedRequest m2 : 16|16@1+ (0.5,-16064) [-16064|16064] "RPM"  MasterNode,MUT1Node
+ SG_ uc_m1_ForwardSpeedLimit m1 : 32|16@1+ (0.5,-16064) [0|16064] "RPM"  MasterNode,MUT1Node
+ SG_ uc_m1_MotoringTorqueLimit m2 : 32|16@1+ (0.1,-3212.8) [0|3212.8] "Nm"  MasterNode,MUT1Node
+ SG_ uc_m1_ReverseSpeedLimit m1 : 48|16@1+ (0.5,-16064) [-16064|0] "RPM"  MasterNode,MUT1Node
+ SG_ uc_m1_RegenTorqueLimit m2 : 48|16@1+ (0.1,-3212.8) [-3212.8|0] "Nm"  MasterNode,MUT1Node
+
+BO_ 2565800194 m1_Temperature: 8 MUT1Node
+ SG_ tm_m1_Inverter : 8|8@1+ (1,-40) [-40|210] "Celsius"  MUT1Node,MasterNode
+ SG_ tm_m1_Rotor : 16|8@1+ (1,-40) [-40|210] "Celsius"  MUT1Node,MasterNode
+ SG_ tm_m1_Stator : 24|8@1+ (1,-40) [-40|210] "Celsius"  MUT1Node,MasterNode
+ SG_ tm_m1_IGBTJunction : 32|8@1+ (1,-40) [-40|210] "Celsius"  MUT1Node,MasterNode
+
+BO_ 2565800449 m1_InternalUseCommand: 8 MasterNode
+ SG_ iu_m1_UQM_Code : 0|8@1+ (1,0) [0|255] "Const"  MasterNode,MUT1Node
+ SG_ iu_m1_DataLogging : 16|2@1+ (1,0) [0|3] "Enum"  MasterNode,MUT1Node
+ SG_ iu_m1_WriteEEROMFile : 19|1@1+ (1,0) [0|1] "Bool"  MasterNode,MUT1Node
+ SG_ iu_m1_EnableDAQ : 29|1@1+ (1,0) [0|1] "Bool"  MasterNode,MUT1Node
+ SG_ iu_m1_CancelDAQ : 30|1@1+ (1,0) [0|1] "Bool"  MasterNode,MUT1Node
+ SG_ iu_m1_TriggerDAQ : 31|1@1+ (1,0) [0|1] "Bool"  MasterNode,MUT1Node
+
+BO_ 2632909058 m1_CANWatchdogStatusMessage: 8 MUT1Node
+ SG_ wd_m1_CmdWatchdogStatus : 0|8@1+ (1,0) [165|165] "Constant"  MUT1Node,MasterNode
+ SG_ wd_m1_ToggleBit : 16|1@1+ (1,0) [0|1] "Integer"  MUT1Node,MasterNode
+ SG_ wd_m1_TestDataEnable : 17|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ wd_m1_DAQ_Available : 18|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ wd_m1_SystemEnumeration : 19|9@1+ (1,0) [0|511] "Integer"  MUT1Node,MasterNode
+ SG_ wd_m1_RegenType : 31|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+ SG_ wd_m1_SWSubVersion : 32|4@1+ (1,0) [0|15] "Integer"  MUT1Node,MasterNode
+ SG_ wd_m1_SWMinorVersion : 36|8@1+ (1,0) [0|255] "Integer"  MUT1Node,MasterNode
+ SG_ wd_m1_SWMajorVersion : 44|4@1+ (1,0) [0|15] "Integer"  MUT1Node,MasterNode
+ SG_ wd_m1_CANVersion : 48|4@1+ (1,0) [0|4] "Integer"  MUT1Node,MasterNode
+ SG_ wd_m1_Error : 56|1@1+ (1,0) [0|1] "Bool"  MUT1Node,MasterNode
+
+BO_ 2632909313 m1_CANHeartbeatCommand: 8 MasterNode
+ SG_ chc_m1_HeartbeatIdentifier1 : 0|16@1+ (1,0) [42405|42406] "Enum"  MasterNode,MUT1Node
+ SG_ chc_m1_ClaerWatchdogError : 16|8@1+ (1,0) [0|90] "Enum"  MasterNode,MUT1Node
+ SG_ chc_m1_HeartbeatIdentifier2 : 24|8@1+ (1,0) [0|0] "Enum"  MasterNode,MUT1Node
+
+
+
+CM_ BU_ MasterNode "System Controller";
+CM_ BU_ MUT1Node "MUT 1 Inverter";
+CM_ BO_ 2230255874 "This message reports the current values of Motor Speed in rpm, Motor Torque in Nm, High Voltage DC voltage, and High Voltage DC current
+
+The timing is user controlled by the ?Transmission Rate? box on the CANbus tab of the System Configuration section of the UQM Motor Controller software.
+
+The default value is 102 ms. ";
+CM_ SG_ 2230255874 af_m1_Torque "This is the torque being output by the motor which is calculated based on measured parameters. A negative torque value always indicates regeneration torque while a positive value indicates motoring torque.";
+CM_ SG_ 2230255874 af_m1_Voltage "The DC bus voltage available at the DC input terminals of the inverter";
+CM_ SG_ 2230255874 af_m1_Current "This is the DC bus current being consumed (motoring) or produced (regeneration) by the inverter.  Positive values indicate motoring, while negative values indicate regeneration operation.";
+CM_ SG_ 2230255874 af_m1_Speed "This is the speed of rotation of the rotor.";
+CM_ BO_ 2297364738 "This message provides the VCU with a regular updates on status data.
+
+The message is sent every 500 ms or when a change in status is detected.";
+CM_ SG_ 2297364738 ss_m1_NotEnabled "Indicates whether the inverter is ready to output the user desired torque";
+CM_ SG_ 2297364738 ss_m1_OverLegCurrent "Indicates whether the motor leg (phase) currents are over their normal operating range value";
+CM_ SG_ 2297364738 ss_m1_OverBusCurrent "Indicates whether the bus (DC) current is over its normal operating range value";
+CM_ SG_ 2297364738 ss_m1_OverPhaseAdvance "Indicates an internal error condition resulting in reduced torque output. It should never be active under normal operating conditions";
+CM_ SG_ 2297364738 ss_m1_UnderVoltageWarning "Indicates that the DC bus voltage has fallen below a preset minimum threshold. The inverter reduces motoring limit to prevent the bus voltage from falling further";
+CM_ SG_ 2297364738 ss_m1_RotorOverTemp "Indicates that the rotor temperature has exceeded the maximum allowed value. The inverter reduces torque output capacity to prevent the temperature rising further. This bit is also set if an open rotor temperature sensor is detected";
+CM_ SG_ 2297364738 ss_m1_StatorOverTemp "Indicates that the stator temperature has exceeded the maximum allowed value. The inverter reduces torque output capacity to prevent the temperature rising further. This bit is also be set if an open stator temperature sensor is detected";
+CM_ SG_ 2297364738 ss_m1_InverterOverTemp "Indicates that the power switch temperature has exceeded the maximum allowed value. The inverter reduces torque output capacity to prevent the temperature rising further. This bit is also set if an open power switch temperature sensor is detected";
+CM_ SG_ 2297364738 ss_m1_OverSpeedWarning "Indicates that the motor speed has exceeded the high speed warning threshold. The inverter reduces motoring capability in an attempt to prevent speed from increasing further";
+CM_ SG_ 2297364738 ss_m1_OverVoltageWarning "Indicates that the DC bus voltage has exceeded the high voltage warning threshold. The inverter reduces regeneration capability to prevent the voltage from being boosted further";
+CM_ SG_ 2297364738 ss_m1_OverSpeedAlarm "Indicates that the motor speed has exceeded the high speed alarm threshold. The inverter does not allow motoring until the speed has reduced below this threshold";
+CM_ SG_ 2297364738 ss_m1_OverVoltageAlarm "Indicates that the DC bus voltage has exceeded the high voltage alarm threshold. The inverter severely limits regeneration capability to prevent the voltage from being boosted further";
+CM_ SG_ 2297364738 ss_m1_AdcCalProblem "Indicates that the ADC calibration data read from the EEPROM has failed integrity checks. Test is performed at power up. If set, the inverter uses default calibration data and severely limits torque output. A power cycle is required to clear this error";
+CM_ SG_ 2297364738 ss_m1_LimpHomeMode "Indicates a serious impairment to its normal operation.  Limp Home Mode allows continued but reduced operation as safely as possible given the impairment.  The torque delivered will be limited by the Limp Home Percentage.";
+CM_ SG_ 2297364738 ss_m1_InvFaultOccurred "Inverter faults are power switch protection events. This bit is set to indicate that such a protection event has occurred";
+CM_ SG_ 2297364738 ss_m1_InverterFault "Inverter faults are power switch protection events. Too much heat or too much current can damage the switches, so the controller protects them and sets this bit while it is doing so";
+CM_ SG_ 2297364738 ss_m1_NotEnabled_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_NotEnabled";
+CM_ SG_ 2297364738 ss_m1_OverLegCurrent_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_OverLegCurrent";
+CM_ SG_ 2297364738 ss_m1_OverBusCurrent_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_OverBusCurrent";
+CM_ SG_ 2297364738 ss_m1_OverPhaseAdv_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_OverPhaseAdvance";
+CM_ SG_ 2297364738 ss_m1_UnderVoltage_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_UnderVoltageWarning";
+CM_ SG_ 2297364738 ss_m1_RotorOverTemp_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_OverRotorTemp";
+CM_ SG_ 2297364738 ss_m1_StatorOverTemp_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_OverMotorTemp";
+CM_ SG_ 2297364738 ss_m1_InvOverTemp_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_OverInverterTemp";
+CM_ SG_ 2297364738 ss_m1_OverSpeedWarn_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_OverSpeedWarning";
+CM_ SG_ 2297364738 ss_m1_OverVoltWarn_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_OverVoltageWarning";
+CM_ SG_ 2297364738 ss_m1_OverSpeedAlarm_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_OverSpeedAlarm";
+CM_ SG_ 2297364738 ss_m1_OverVoltAlarm_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_OverVoltageAlarm";
+CM_ SG_ 2297364738 ss_m1_AdcCalProblem_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_AdcCalProblem";
+CM_ SG_ 2297364738 ss_m1_LimpHomeMode_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_OverRegenPower";
+CM_ SG_ 2297364738 ss_m1_InvFaultOccurd_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_InvFaultOccurred";
+CM_ SG_ 2297364738 ss_m1_InverterFault_Hist "Indicates whether corresponding system error bit has ever been set since the last power cycle. Refer to ss_m1_InverterFault";
+CM_ SG_ 2297364738 ss_m1_ControlMode "Current Control Mode
+0: None
+1: Torque Control
+2: Speed Control
+3: Voltage Control
+4-7: Undefined";
+CM_ SG_ 2297364738 ss_m1_VbemfOffset "Difference between default and calculated Back EMF";
+CM_ SG_ 2297364738 ss_m1_PosOffsetDelta "Difference between default rotor offset and calculated rotor offset";
+CM_ SG_ 2297364738 ss_m1_ForceVoltageControl "Indicates whether the inverter is operating in Forced Voltage Control Mode. This occurs only if a dangerous over voltage condition is detected. In this case, the inverter switches to voltage control mode in an attempt to reduce the bus voltage";
+CM_ SG_ 2297364738 ss_m1_CANLimiting "Indicates whether the inverter's output is being limited by limits sent over the CANbus";
+CM_ SG_ 2297364738 ss_m1_DisabledInMotion "Indicates that a non-zero motor speed is detected while the Enable bit in the Control Parameters signal of the m1_UniversalCommand Message is not set. This implies that the motor is being spun by an external force";
+CM_ SG_ 2297364738 ss_m1_ABCPhaseOrder "Indicates the internally sensed direction of rotation of the motor";
+CM_ SG_ 2297364738 ss_m1_RegenSwOpen "Set when the regeneration switch is open, and the motor system cannot produce any regeneration power";
+CM_ SG_ 2297364738 ss_m1_CurTripFltIbusIleg "Set when the controller is limiting it torque by half because the power switch current or bus current has grown too large";
+CM_ SG_ 2297364738 ss_m1_ActiveDampAccelLim "Set while the controller is limiting its torque in order to meet the acceleration limit or active damping limit set in the System Configuration";
+CM_ SG_ 2297364738 ss_m1_UsingRawSpeed "Indicates that the inverter is using raw speed to calculate its desired torque";
+CM_ SG_ 2297364738 ss_m1_TurboMode "Indicates whether the system has entered a higher efficiency mode of operation. This mode is entered automatically when the motor speed exceeds base speed at a given DC voltage";
+CM_ SG_ 2297364738 ss_m1_ForcedOpenLoop "Indicates that the system has entered an open loop mode of operation. This typically occurs when a problem is detected with hardware sensors/circuitry, which means measurements cannot be trusted. Output capability is severely limited";
+CM_ SG_ 2297364738 ss_m1_StallConditionsActive "Indicates that the inverter senses a stall condition (non-zero torque request at zero speed). The inverter enters a stall algorithm, that applies short timer period torque pulses up until desired torque request in an attempt to overcome the stall";
+CM_ SG_ 2297364738 ss_m1_PhaseCurSenErr "Indicates that the inverter has sensed an error in one or more of the leg (phase) current sensors. In this case, the inverter enters an open loop mode of operation and limits torque output";
+CM_ SG_ 2297364738 ss_m1_BadPositionSignal "Indicates that the inverter senses a problem with the position signal";
+CM_ SG_ 2297364738 ss_m1_BadSwitch "Indicates that the inverter senses a problem with the power switch driver circuitry";
+CM_ SG_ 2297364738 ss_m1_InvalidPowerSupply "Indicates that the controller's internal power supply is out of regulation. In this case, the inverter enters open loop mode of operation and limits the output capability";
+CM_ SG_ 2297364738 ss_m1_PowerSwOff "Indicates that the system's power switches have shut down because of a problem with the hardware. The power switches have been shut down to protect the operator and the UQM controller";
+CM_ BO_ 2431582466 "This message provides telemetry data to the test controler";
+CM_ SG_ 2431582466 di_m1_MessageEnum "Mode Select";
+CM_ SG_ 2431582466 di_m1_MessageNumber "Make MessageEnum visable to Sakor";
+CM_ SG_ 2431582466 di_m1_5_12msCounter "5.12 ms clock counter";
+CM_ SG_ 2431582466 di_m1_PhaseAdvDes "Desired Phase Advance in electrial degrees";
+CM_ SG_ 2431582466 di_m1_PhaseAdvAct "Actual Phase Advance in electrial degrees";
+CM_ SG_ 2431582466 di_m1_AccelLimit "Acceleration limit in rpm per second";
+CM_ SG_ 2431582466 di_m1_ControlConditions "See Universal Command Control Mode";
+CM_ SG_ 2431582466 di_m1_PWMFrequency "PWM Frequency";
+CM_ SG_ 2431582466 di_m1_MaxSinkCurrent "Maximum current the system is allowed to synk when in drive mode";
+CM_ SG_ 2431582466 di_m1_MaxSourceCurrent "Maximum current the system is allowed to source when in regen mode";
+CM_ SG_ 2431582466 di_m1_MaxRegenTorqueAllowed "Maximum torque the system is allowed to produce in regen";
+CM_ SG_ 2431582466 di_m1_MaxDriveTorqueAllowed "Maximum torque the system is allowed to produce in drive";
+CM_ SG_ 2431582466 di_m1_LUT_Torque "Expected Torque at Current Speed and Leg Current";
+CM_ SG_ 2431582466 di_m1_LUT_Current "Expected Leg Current at Current Speed and Torque";
+CM_ SG_ 2431582466 di_m1_PolePairs "Number of motor pole pairs";
+CM_ SG_ 2431582466 di_m1_MinBatteryVoltage "Minimum high voltage for system type";
+CM_ SG_ 2431582466 di_m1_MaxBatteryVoltage "Maximum high voltage for system type";
+CM_ SG_ 2431582466 di_m1_MaxRegenTrq "Max Regen Torque allowed for this system";
+CM_ SG_ 2431582466 di_m1_MaxDriveTrq "Max Drive Torque allowed for this system";
+CM_ SG_ 2431582466 di_m1_MaxRegenPwr "Max Regen Power allowed for this system";
+CM_ SG_ 2431582466 di_m1_MaxDrivePwr "Max Drive Power allowed for this system";
+CM_ SG_ 2431582466 di_m1_MaxReverseSpeed "Max Speed in Reverse allowed for this system";
+CM_ SG_ 2431582466 di_m1_MaxDriveSpeed "Max Speed in Forward allowed for this system";
+CM_ SG_ 2431582466 di_m1_StatorTempMax "Stator Temperature at which the Torque Limit is reduced to 0Nm";
+CM_ SG_ 2431582466 di_m1_StatorTempLimit "Stator Temperature at which the Torque Limiting begins";
+CM_ SG_ 2431582466 di_m1_RotorTempMax "Rotor Temperature at which the Torque Limit is reduced to 0Nm";
+CM_ SG_ 2431582466 di_m1_RotorTempLimit "Rotor Temperature at which the Torque Limiting begins";
+CM_ SG_ 2431582466 di_m1_InverterTempMax "Inverter Temperature at which the Torque Limit is reduced to 0Nm";
+CM_ SG_ 2431582466 di_m1_InverterTempLimit "Inverter Temperature at which the Torque Limiting begins";
+CM_ SG_ 2431582466 di_m1_IGBTTempMax "IGBT Temperature at which the Torque Limit is reduced to 0Nm";
+CM_ SG_ 2431582466 di_m1_IGBTTempLimit "IGBT Temperature at which the Torque Limiting begins";
+CM_ SG_ 2431582466 di_m1_SourceCurrentMax "Maximum regen current for which the system is configured";
+CM_ SG_ 2431582466 di_m1_SinkCurrentMax "Maximum drive current for which the system is configurd";
+CM_ SG_ 2431582466 di_m1_SystemTime "System Time";
+CM_ BO_ 2431582721 "This command allows the user to dynamically change the acceleration limit of the controller.";
+CM_ SG_ 2431582721 al_m1_AccelerationLimits "Update Acceleration Limits when set to 1";
+CM_ SG_ 2431582721 al_m1_CurrentLimits "Update Current Limits when set to 1";
+CM_ SG_ 2431582721 al_m1_SurgeLim "This value controls surges in acceleration.
+
+Only valid if al_m1_AccelerationLimits = 1";
+CM_ SG_ 2431582721 al_m1_AccelLim "Maximum rate of acceleration the system will produce to reach the targeted value commanded in the Universal Command.
+
+Only valid if al_m1_AccelerationLimits = 1";
+CM_ SG_ 2431582721 al_m1_MaxSinkCurrent "Maximum current the system is allowed to sink when in drive mode
+
+Only valid if al_m1_CurrentLimits = 1";
+CM_ SG_ 2431582721 al_m1_MaxSourceCurrent "Maximum current the system is allowed to source when in regen mode
+
+Only valid if al_m1_CurrentLimits = 1";
+CM_ BO_ 2498691330 "This message provides limits on how much torque can be generated and certain other status data. 
+
+The timing is user controlled by the ?Transmission Rate? box on the CANbus tab of the System Configuration section of the UQM Motor Controller software.
+
+The default value is 102 ms.";
+CM_ SG_ 2498691330 ltp_m1_LegCurrent "This is the absolute value of the peak currents passing through the motor's phase leads.  For PP1xx control types, the factor is 4.";
+CM_ SG_ 2498691330 ltp_m1_HighBound "This is the percentage of maximum available motoring torque at the current operating point, after the user's torque request has filtered through all of the inverter's safety subsystems.";
+CM_ SG_ 2498691330 ltp_m1_LowBound "This is the percentage of maximum available regeneration torque at the current operating point, after the user's torque request has filtered through all of the inverter's safety subsystems.";
+CM_ SG_ 2498691330 ltp_m1_StallPercentage "When this value reaches 100%, the stall safety limit trips and the system limits itself to 10% of its rated torque for approximately 30 seconds.";
+CM_ SG_ 2498691330 ltp_m1_AngularDistance "This is the angular distance in degrees. In forward, the Angular Distance counts up. In reverse, it counts down. The count can roll over in either direction.";
+CM_ SG_ 2498691330 ltp_m1_TorqueDesired "This is the maximum available torque at the current operating point after the user's torque request has filtered through all of the inverter's safety subsystems";
+CM_ BO_ 2498691585 "The message commands the MCU to operate in a certain way depending on the UniversalCmd_ControlMode field.
+
+The timing is user controlled by the ?Timeout Period? box on the CANbus tab of the System Configuration section of the UQM Motor Controller software.
+
+The time between successive m1_CANHeartbeatCommand commands may not exceed the value in the ?Timeout Period? field.
+
+The default value is 996 ms. ";
+CM_ SG_ 2498691585 uc_m1_ControlMode "The Control Mode byte defines the controller's mode of operation: torque, speed or voltage control. Sending a value outside the valid range results in the inverter ignoring the message and continuing to use the last received valid command.";
+CM_ SG_ 2498691585 uc_m1_CommandCounter "The Command Counter is used to validate the command message. It operates in one of three modes: Ignore counter, Must change value, Must count in order. The counter mode is set in the UQM system configuration.";
+CM_ SG_ 2498691585 uc_m1_ActiveDischarge "Trigger discharge of HV DC capacitors";
+CM_ SG_ 2498691585 uc_m1_UseRawSpeed "This bit, when set to Enabled, allows the inverter to use raw speed to calculate desired torque. Setting it to Disabled causes the inverter to use filtered speed to calculate the torque.";
+CM_ SG_ 2498691585 uc_m1_DirOfRotation "This bit controls the direction of rotation of the motor. Whether Forward means clockwise or counter-clockwise can be configured using the System Configuration dialog's Change the direction of 'Forward' setting located on the Control tab.";
+CM_ SG_ 2498691585 uc_m1_Enable "This bit, when set to Enabled, allows the inverter to control to the requested torque command. Setting it to Disabled causes the inverter to control to zero torque. This has the same effect as sending a 0 Nm torque request.";
+CM_ SG_ 2498691585 uc_m1_DisableAccLim "This bit allows the Universal Command to override the Acceleration Limit in the System Configuration.  The controller ignores any acceleration limit and active damping setting while this bit is asserted, and it obeys these settings when it is zero.";
+CM_ SG_ 2498691585 uc_m1_TorqueRequest "This field contains the requested torque command. The sign determines whether motoring/regeneration torque is being commanded. A positive torque command always means motoring torque while a negative torque command always means regeneration torque";
+CM_ SG_ 2498691585 uc_m1_SpeedRequest "The requested speed command. The sign determines the direction of rotation of the motor. Whether a positive speed request means clockwise / counter-clockwise can be configured using the System Configuration dialog";
+CM_ SG_ 2498691585 uc_m1_ForwardSpeedLimit "The maximum speed in the forward direction that the motor is allowed to accelerate to before the inverter starts to limit motoring torque. Must be a positive value. Negative speed value causes the inverter to set forward speed limit to 0 rpm.";
+CM_ SG_ 2498691585 uc_m1_MotoringTorqueLimit "This field contains the maximum allowed motoring torque that the inverter produces to accelerate to the requested speed value. This limit must be a positive value. Sending a negative value causes the inverter to set motoring torque limit to 0 Nm.";
+CM_ SG_ 2498691585 uc_m1_ReverseSpeedLimit "The maximum speed in the reverse direction that the motor is allowed to accelerate to before the inverter starts to limit motoring torque. Must be a negative value. Positive speed value causes the inverter to set reverse speed limit to 0 rpm.";
+CM_ SG_ 2498691585 uc_m1_RegenTorqueLimit "This field contains the maximum allowed regeneration torque that the inverter produces to decelerate to the requested speed value. This limit must be a negative value. Sending a positive value causes the inverter to set regeneration torque limit to 0 Nm.";
+CM_ BO_ 2565800194 "This message provides data on the temperature of the Inverter, Rotor, and Stator in degrees Celsius.
+
+The message is sent every 1000 ms";
+CM_ SG_ 2565800194 tm_m1_Inverter "This is the maximum of the power switch temperatures being reported by the three power switch modules";
+CM_ SG_ 2565800194 tm_m1_Rotor "This is the rotor temperature sensed by a thermistor located near the rotor";
+CM_ SG_ 2565800194 tm_m1_Stator "This is the stator temperature sensed by a thermistor in the common";
+CM_ SG_ 2565800194 tm_m1_IGBTJunction "Estimated coolant temperature based on internal parameters and current operating conditions";
+CM_ BO_ 2565800449 "This message controls saving a DAQ file";
+CM_ SG_ 2565800449 iu_m1_UQM_Code "Message is only valid when == 0x85";
+CM_ SG_ 2565800449 iu_m1_DataLogging "00 No action
+01 Start Logging
+02 Pause Logging
+03 Stop Logging";
+CM_ SG_ 2565800449 iu_m1_WriteEEROMFile "Save the EEROM File contents";
+CM_ SG_ 2565800449 iu_m1_EnableDAQ "Set DAQ Trigger enable";
+CM_ SG_ 2565800449 iu_m1_CancelDAQ "Cancel DAQ Download";
+CM_ SG_ 2565800449 iu_m1_TriggerDAQ "Trigger DAQ";
+CM_ BO_ 2632909058 "This message provides the VCU with a regular watchdog message to check to see that the CAN Bus is still operational and indicate when the MCU detects a message timeout.
+
+The message is sent every 500 ms or when a timeout is detected.";
+CM_ SG_ 2632909058 wd_m1_CmdWatchdogStatus "This byte is used to identify the outgoing message and is always set to the above value.";
+CM_ SG_ 2632909058 wd_m1_ToggleBit "This bit toggles between 0 and 1 each time the Watchdog Status message is transmitted.";
+CM_ SG_ 2632909058 wd_m1_TestDataEnable "System can generate telemetry messages";
+CM_ SG_ 2632909058 wd_m1_DAQ_Available "DAQ is being downloaded";
+CM_ SG_ 2632909058 wd_m1_SystemEnumeration "System Type Enumeration - see CAN Manual";
+CM_ SG_ 2632909058 wd_m1_RegenType "0 = Old Regen
+1 = New Regen";
+CM_ SG_ 2632909058 wd_m1_SWSubVersion "These bits indicate the software release sub-version (i.e., the 1 at the end of V4.10.1).";
+CM_ SG_ 2632909058 wd_m1_SWMinorVersion "These bits indicate the software minor version (i.e., the 10 in V4.10.1).";
+CM_ SG_ 2632909058 wd_m1_SWMajorVersion "These bits indicate the software major version (i.e., the 4 in V4.10.1).";
+CM_ SG_ 2632909058 wd_m1_CANVersion "These bits indicate the CAN version.";
+CM_ SG_ 2632909058 wd_m1_Error "Indicates the status of the CAN communication. The inverter sets this bit if no valid CAN message is received for a period greater than the CAN watchdog timeout setting in System Configuration.";
+CM_ BO_ 2632909313 "This message is used to signal to the MCU that the VCU is still active and to reset the MCU timer when a watchdog timeout occurs.
+
+The timing is user controlled by the ?Timeout Period? box and the ?Require Heartbeat Command? checkbox on the CANbus tab of the System Configuration section of the UQM Motor Controller software.
+
+If ?Require Heartbeat Command? is checked, the time between successive m1_CANHeartbeatCommand commands may not exceed the value in the ?Timeout Period? field.
+
+If ?Require Heartbeat Command? is not checked, the command is only required when a watchdog error is detected.
+
+The default value is 996 ms.";
+CM_ SG_ 2632909313 chc_m1_HeartbeatIdentifier1 "Set to 0xA5A5 for Heartbeat Valid and Reset Timer
+Set to 0x00A6 for Reset Regen Switch (PPPro1xx systems only).";
+CM_ SG_ 2632909313 chc_m1_ClaerWatchdogError "Set to 00 for Heartbeat Valid, set to 5A for Reset Timer
+Set to 00 for Reset Regen Switch (PPPro1xx systems only). 
+Note: it is the transition from 00 to 5A which will Reset Timer";
+CM_ SG_ 2632909313 chc_m1_HeartbeatIdentifier2 "Set to 00 for Heartbeat Valid and Reset Timer
+Set to 6A for Reset Regen Switch (PPPro1xx systems only).";
+VAL_ 2297364738 ss_m1_NotEnabled 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_OverLegCurrent 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_OverBusCurrent 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_OverPhaseAdvance 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_UnderVoltageWarning 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_RotorOverTemp 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_StatorOverTemp 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_InverterOverTemp 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_OverSpeedWarning 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_OverVoltageWarning 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_OverSpeedAlarm 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_OverVoltageAlarm 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_AdcCalProblem 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_LimpHomeMode 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_InvFaultOccurred 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_InverterFault 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_NotEnabled_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_OverLegCurrent_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_OverBusCurrent_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_OverPhaseAdv_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_UnderVoltage_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_RotorOverTemp_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_StatorOverTemp_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_InvOverTemp_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_OverSpeedWarn_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_OverVoltWarn_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_OverSpeedAlarm_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_OverVoltAlarm_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_AdcCalProblem_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_LimpHomeMode_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_InvFaultOccurd_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_InverterFault_Hist 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_ControlMode 0 "Undefined mode" 1 "Torque control mode" 2 "Speed control mode" 5 "Torque control mode - Safety" 6 "Speed control mode - Safety" ;
+VAL_ 2297364738 ss_m1_ForceVoltageControl 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_CANLimiting 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_DisabledInMotion 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_ABCPhaseOrder 0 "CW" 1 "CCW" ;
+VAL_ 2297364738 ss_m1_RegenSwOpen 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_CurTripFltIbusIleg 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_ActiveDampAccelLim 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_UsingRawSpeed 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_TurboMode 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_ForcedOpenLoop 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_StallConditionsActive 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_PhaseCurSenErr 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_BadPositionSignal 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_BadSwitch 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_InvalidPowerSupply 0 "False" 1 "True" ;
+VAL_ 2297364738 ss_m1_PowerSwOff 0 "False" 1 "True" ;
+VAL_ 2431582721 al_m1_AccelerationLimits 0 "Acceleration Limits not Valid" 1 "Acceleration Limits Valid" ;
+VAL_ 2431582721 al_m1_CurrentLimits 0 "Current Limits Not Valid" 1 "Current Limits Valid" ;
+VAL_ 2498691585 uc_m1_ControlMode 0 "Undefined mode" 1 "Torque control mode" 2 "Speed control mode" 5 "Torque control mode - Safety" 6 "Speed control mode - Safety" ;
+VAL_ 2498691585 uc_m1_UseRawSpeed 1 "Enable" 0 "Disable" ;
+VAL_ 2498691585 uc_m1_DirOfRotation 1 "Forward" 0 "Reverse" ;
+VAL_ 2498691585 uc_m1_Enable 1 "Enable" 0 "Disable" ;
+VAL_ 2498691585 uc_m1_DisableAccLim 1 "AccelLimitDisabled" 0 "AccelLimitEnabled" ;
+
