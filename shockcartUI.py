@@ -22,7 +22,7 @@ temp_data = tk.StringVar()
 counter_num =tk.StringVar()
 info_frame = tk.Frame(app,bg="light blue",border=5,relief="groove")
 button_frame = tk.Frame(app,bg="light green",border=5,relief="groove")
-pad_frame = tk.Frame(app,bg="light pink",border=5,relief="groove")
+pad_frame = tk.Canvas(app,bg="light pink",border=5,relief="groove")
 
 
 
@@ -87,8 +87,42 @@ def update_counter():
     new_counter_num = cart1.get_counter()
     counter_num.set(f"Cycle Count\n{new_counter_num}/{cart1.cycle_count}")
     app.after(1000,update_counter)
+    
+def connect_buttons(b1, b2):
+    # connect line between button 1 and button 2
+    
+    # calculate center point of button
+    b1_center = (b1.winfo_x() + b1.winfo_width() / 2, b1.winfo_y() + b1.winfo_height() / 2)
+    b2_center = (b2.winfo_x() + b2.winfo_width() / 2, b2.winfo_y() + b2.winfo_height() / 2)
+    print(f"Button 1 coords:{b1_center}\nButton 2 coords:{b2_center}")
+    
+    # draw line
+    pad_frame.create_line(b1_center, b2_center)    
+    
 
-toggle_button = tk.Button(pad_frame,text="test")
+    
+# follow scheme of numbering
+    # cold_out = 1
+    # cold_bypass = 2
+    # cold_in = 3
+    # hot_bypass = 4
+    # hot_in = 5
+    # hot_out = 6
+    # pump = 7
+    # fan = 8
+   
+co1 = tk.Button(pad_frame,text="Cold Outlet")
+cb2 = tk.Button(pad_frame,text="Cold Bypass")
+ci3 = tk.Button(pad_frame,text="Cold In")
+hb4 = tk.Button(pad_frame,text="Hot Bypass")
+hi5 = tk.Button(pad_frame,text="Hot In")
+ho6 = tk.Button(pad_frame,text="Hot Out")
+# not in the flow (ish) diagram layout, will be set aside in the frame
+pump_7 = tk.Button(pad_frame,text="Pump")
+fan_8 = tk.Button(pad_frame,text="Fan")
+
+junc_to_mut = tk.Label(pad_frame,text="TEE")
+junc_from_mut = tk.Label(pad_frame, text="TEE")
 
 ###############PACK###################
 button_frame.pack(side="left",expand="true",fill="both")
@@ -105,9 +139,58 @@ display_temp_label.pack()
 update_temp_data()
 counter_label.pack()
 update_counter()
+###############PACK###################
 
-pad_frame.pack(side="bottom",expand="true",fill="both")
-toggle_button.pack()
+####PAD#GRID##########
+
+# approx layout
+# see how good I can do with grid
+# changed Frame to Canvas, can maybe add lines to show flow layout
+#####################################################################
+#                HO                                                 #
+#                                                                   #
+#         HB                                                        #
+#                                                                   #
+#                        HI                                         #
+#                                          CI                       #
+#                                                                   #
+#                                                      CB           #
+#                                                                   #    
+#  res                               CO                             #
+#####################################################################
+####PAD#GRID##########
+#test_button.pack()
+co1.grid(row=8,column=14)
+cb2.grid(row=7,column=18, padx=5)
+ci3.grid(row=6, column=16, padx=10)
+hb4.grid(row=2,column=4,padx=5)
+hi5.grid(row=5,column=7)
+ho6.grid(row=1,column=6, padx=15,pady=5)
+pump_7.grid(column=1, pady=5, padx=5)
+fan_8.grid(column=1, pady=5,padx=5)
+# junctions
+junc_to_mut.grid(row=1,column=16)
+junc_from_mut.grid(row=5,column=14)
+
+# have to update the app before trying to get the coords 
+app.update()
+
+## test drawing lines
+# point to point = center coord to center coord
+
+    
+connect_buttons(co1,cb2)
+connect_buttons(cb2,ci3)
+connect_buttons(hb4,hi5)
+connect_buttons(ho6,hb4)
+connect_buttons(co1,junc_from_mut)
+connect_buttons(ci3,junc_to_mut)
+connect_buttons(ho6,junc_to_mut)
+connect_buttons(hi5,junc_from_mut)
+
+
+
+pad_frame.pack(side="bottom")
 
 try:
     app.title('Shockcart')
