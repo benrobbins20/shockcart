@@ -88,7 +88,7 @@ def update_counter():
     counter_num.set(f"Cycle Count\n{new_counter_num}/{cart1.cycle_count}")
     app.after(1000,update_counter)
     
-def connect_buttons(b1, b2):
+def connect_objects(b1, b2):
     # connect line between button 1 and button 2
     
     # calculate center point of button
@@ -100,7 +100,7 @@ def connect_buttons(b1, b2):
     pad_frame.create_line(b1_center, b2_center)    
     
 
-    
+
 # follow scheme of numbering
     # cold_out = 1
     # cold_bypass = 2
@@ -123,6 +123,8 @@ fan_8 = tk.Button(pad_frame,text="Fan")
 
 junc_to_mut = tk.Label(pad_frame,text="TEE")
 junc_from_mut = tk.Label(pad_frame, text="TEE")
+mut_outlet = tk.Label(pad_frame, text="MUT Outlet")
+mut_inlet = tk.Label(pad_frame, text="MUT Inlet")
 
 ###############PACK###################
 button_frame.pack(side="left",expand="true",fill="both")
@@ -160,9 +162,9 @@ update_counter()
 #####################################################################
 ####PAD#GRID##########
 #test_button.pack()
-co1.grid(row=8,column=14)
-cb2.grid(row=7,column=18, padx=5)
-ci3.grid(row=6, column=16, padx=10)
+co1.grid(row=9,column=14,pady=10)
+cb2.grid(row=8,column=18, padx=5, pady=10)
+ci3.grid(row=7, column=16, padx=10, pady=10)
 hb4.grid(row=2,column=4,padx=5)
 hi5.grid(row=5,column=7)
 ho6.grid(row=1,column=6, padx=15,pady=5)
@@ -171,6 +173,9 @@ fan_8.grid(column=1, pady=5,padx=5)
 # junctions
 junc_to_mut.grid(row=1,column=16)
 junc_from_mut.grid(row=5,column=14)
+# ports
+mut_outlet.grid(row=1,column=18)
+mut_inlet.grid(row=5, column=18)
 
 # have to update the app before trying to get the coords 
 app.update()
@@ -179,14 +184,16 @@ app.update()
 # point to point = center coord to center coord
 
     
-connect_buttons(co1,cb2)
-connect_buttons(cb2,ci3)
-connect_buttons(hb4,hi5)
-connect_buttons(ho6,hb4)
-connect_buttons(co1,junc_from_mut)
-connect_buttons(ci3,junc_to_mut)
-connect_buttons(ho6,junc_to_mut)
-connect_buttons(hi5,junc_from_mut)
+connect_objects(co1,cb2)
+connect_objects(cb2,ci3)
+connect_objects(hb4,hi5)
+connect_objects(ho6,hb4)
+connect_objects(co1,junc_from_mut)
+connect_objects(ci3,junc_to_mut)
+connect_objects(ho6,junc_to_mut)
+connect_objects(hi5,junc_from_mut)
+connect_objects(junc_from_mut, mut_inlet)
+connect_objects(junc_to_mut, mut_outlet)
 
 
 
