@@ -1,9 +1,10 @@
-import os
+import os, time
 import tkinter as tk
 from tkinter import ttk
 import threading
 from shockcart import Shockcart # bringing in the Shockcart class
-cart1 = Shockcart(3,5) # instance of shockcart args(cycle_count,cycle_time)
+cart1 = Shockcart(30,30) # instance of shockcart args(cycle_count,cycle_time)
+# this is the full test 30 hours! 1 cycle 1 hour
 
 ##############################################
 #       GUI app that works with shockcart.py class 
@@ -19,12 +20,11 @@ cart1 = Shockcart(3,5) # instance of shockcart args(cycle_count,cycle_time)
 #########VARS###########
 app = tk.Tk()
 temp_data = tk.StringVar()
-counter_num =tk.StringVar()
+counter_num = tk.StringVar()
+timer_num = tk.StringVar()
 info_frame = tk.Frame(app,bg="light blue",border=5,relief="groove")
 button_frame = tk.Frame(app,bg="light green",border=5,relief="groove")
 pad_frame = tk.Canvas(app,bg="light pink",border=5,relief="groove")
-
-
 
 fill_button = ttk.Button(
     button_frame,
@@ -87,20 +87,26 @@ def update_counter():
     new_counter_num = cart1.get_counter()
     counter_num.set(f"Cycle Count\n{new_counter_num}/{cart1.cycle_count}")
     app.after(1000,update_counter)
+
+timer_label = tk.Label(
+    info_frame,
+    textvariable=timer_num,
+    )
+
+def update_timer():
+    timer_num.set(f"Timer\n{cart1.test_time()}/{cart1.cycle_time}")
+    app.after(1000,update_timer)
     
 def connect_objects(b1, b2):
     # connect line between button 1 and button 2
-    
     # calculate center point of button
     b1_center = (b1.winfo_x() + b1.winfo_width() / 2, b1.winfo_y() + b1.winfo_height() / 2)
     b2_center = (b2.winfo_x() + b2.winfo_width() / 2, b2.winfo_y() + b2.winfo_height() / 2)
-    print(f"Button 1 coords:{b1_center}\nButton 2 coords:{b2_center}")
+    #print(f"Button 1 coords:{b1_center}\nButton 2 coords:{b2_center}") # shows the coords 
     
     # draw line
     pad_frame.create_line(b1_center, b2_center)    
     
-
-
 # follow scheme of numbering
     # cold_out = 1
     # cold_bypass = 2
@@ -138,9 +144,14 @@ fill_button.pack()
 info_frame.pack(side="right",expand="true",fill="both")
 status_label.pack()
 display_temp_label.pack()
+
 update_temp_data()
 counter_label.pack()
+cart1.create_timer()
+timer_label.pack()
 update_counter()
+update_timer()
+
 ###############PACK###################
 
 ####PAD#GRID##########

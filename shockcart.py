@@ -40,6 +40,10 @@ class Shockcart():
         self.cycle_time = cycle_time # this defaults to 30 minutes and shouldn't need to change anything
 
         self.process = multiprocessing.Process(target=self.run_loop)
+        
+        # define an instance variable for the test start time
+        # define it here but dont assign it to time.time() yet
+        self.start_time = 0
 
     def fill(self,enable):
         # fill is going to go IN through the COLD_OUTLET
@@ -55,7 +59,6 @@ class Shockcart():
     
     def relay_plate_reset(self):
         r2.RESET(1)
-        r2.relayON(1,2)# try to always set the cold loop bypass on because I cant control the pump on chiller yet
     
     def hot_loop_enable(self,enabled = False): # default to off
         r2.RESET(1)
@@ -80,13 +83,25 @@ class Shockcart():
             r2.relayOFF(1,self.hot_bypass)
 
     def convert_seconds(self,minutes):
-        print(minutes)
+        #print(minutes)
         if not minutes:
             minutes = self.cycle_time
         seconds = minutes * 60
-        print(seconds)
+        #print(seconds)
         return seconds
     
+    def create_timer(self):
+        # when called start time is set to current time
+        # can call this function inside the while loop of the run_loop to reset the counter
+        self.start_time = time.time()
+
+    def test_time(self):
+        # need a function that has an updating but verbose timer that shows minutes:seconds and updates every second
+        elapsed = time.time() - self.start_time
+        minutes = int(elapsed // 60) # seconds may be < 60 how many times does seconds go into 60, integer rounding DOWN
+        seconds = int(elapsed % 60) # seconds can go into 60 with how much remainder, aka excluding minutes
+        return (f"{minutes}:{seconds}")
+        
     def relay_status(self):
         # heres a fun one 
         # below is a list of pump run criteria
@@ -124,6 +139,7 @@ class Shockcart():
     def run_loop(self):
         sec = self.convert_seconds # so you can like locally rename a self.object in a function for compact function calls
         cycle_time = self.cycle_time
+        self.test_start_time = 0
         while self.counter <= self.cycle_count:
             print(f"while start\nCounter={self.counter}/{self.cycle_count}") 
 
@@ -175,4 +191,7 @@ class Shockcart():
     def toggle_relay(self,num):
         r2.relayOn(1,num)
         
+# #testing
 
+# cart1 = Shockcart(3,3)
+# print(cart1.read_temp_test())
