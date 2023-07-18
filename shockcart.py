@@ -43,6 +43,8 @@ class Shockcart():
         self.process = multiprocessing.Process(target=self.run_loop)
         self.log_proc = multiprocessing.Process(target=self.temp_logger)
         
+        self.log_file_path = f"/home/sparky/shockcart/{self.set_datetime()}.csv"
+        
         # define an instance variable for the test start time
         # define it here but dont assign it to time.time() yet
         self.start_time = 0
@@ -137,7 +139,8 @@ class Shockcart():
     
     def temp_logger(self):
         while True:
-            with open(f"/home/sparky/shockcart/{self.set_datetime()}.csv", 'a',newline='') as logfile:
+            
+            with open(self.log_file_path, 'a',newline='') as logfile:
                 write_csv = csv.writer(logfile)
                 write_csv.writerow([time.ctime(), f"Input: {self.read_temp_test()[0]} Output: {self.read_temp_test()[1]}"])
             time.sleep(5)
