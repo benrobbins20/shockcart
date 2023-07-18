@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 import threading
 from shockcart import Shockcart # bringing in the Shockcart class
+from datetime import datetime
 cart1 = Shockcart(30,30) # instance of shockcart args(cycle_count,cycle_time)
 # this is the full test 30 hours! 1 cycle 1 hour
 
@@ -51,13 +52,25 @@ def test_start():
 
 run_button = ttk.Button(
     button_frame,
-    text=f"\t\tRUN\n{cart1.cycle_count} Cycles {cart1.cycle_time * 2} Minutes Per Cycle",
+    text=f"\tRUN\n{cart1.cycle_count} Cycles {cart1.cycle_time * 2} Minutes Per Cycle",
     command=test_start,
 )
 def kill():
     cart1.kill_loop_process() # terminate the run process
     run_flag.set(False) # reset run_flag to False which changes update_timer() function to set the timer back to zero
     
+log_button = tk.Button(
+    button_frame,
+    text=f"Start temp log\n{cart1.set_datetime()}",
+    command=cart1.temp_logger_process,
+)
+
+stop_log = tk.Button(
+    button_frame,
+    text="Stop Log",
+    command=cart1.kill_temp_logging,
+)
+
 kill_button = ttk.Button(
     button_frame,
     text=f"kill",
@@ -104,6 +117,7 @@ run_label = tk.Label(
     info_frame,
     textvariable=run_var,
 )
+
 def update_run_status():
     if run_flag.get():
         run_var.set(f"Test In Progress")
@@ -177,6 +191,8 @@ reset_relay_button.pack()
 run_button.pack()
 kill_button.pack()
 fill_button.pack()
+log_button.pack()
+stop_log.pack()
 
 ##########STATUS#############
 info_frame.pack(side="right",expand="true",fill="both")

@@ -3,7 +3,8 @@ import piplates.RELAYplate2 as r2
 import piplates.DAQC2plate as d2
 import piplates.THERMOplate as th
 
-import threading, multiprocessing, time
+import threading, multiprocessing, time, csv
+from datetime import datetime
 
 
 class Shockcart():
@@ -40,6 +41,7 @@ class Shockcart():
         self.cycle_time = cycle_time # this defaults to 30 minutes and shouldn't need to change anything
 
         self.process = multiprocessing.Process(target=self.run_loop)
+        self.log_proc = multiprocessing.Process(target=self.temp_logger)
         
         # define an instance variable for the test start time
         # define it here but dont assign it to time.time() yet
@@ -129,6 +131,24 @@ class Shockcart():
             r2.relayOFF(1,self.hot_bypass)
             r2.relayOFF(1,self.cold_bypass)
             
+    def set_datetime(self):
+        current_datetime = datetime.now()
+        return current_datetime.strftime('%Y%m%d%I%M')
+    
+    def temp_logger(self):
+        while True:
+            with open(f"/home/sparky/shockcart/{self.set_datetime()}.csv", 'a',newline='') as logfile:
+                write_csv = csv.writer(logfile)
+                write_csv.writerow([time.ctime(), f"Input: {self.read_temp_test()[0]} Output: {self.read_temp_test()[1]}"])
+            time.sleep(5)
+            
+    def temp_logger_process(self):
+        if not self.log_proc.is_alive():
+            self.log_proc.start()
+                
+    def kill_temp_logging(self):
+        self.log_proc.terminate()
+        
     def all_on(self):
         r2.RESET(1)
         r2.relayALL(1,255)
@@ -184,7 +204,7 @@ class Shockcart():
     def read_temp_test(self):
         chan1= f"Channel 1: {str(th.getTEMP(2,1))} C"
         chan2 = f"Channel 2: {str(th.getTEMP(2,2))} C"
-        return chan1, chan2
+        return [chan1, chan2]
 
     def get_counter(self,):
         return self.counter
