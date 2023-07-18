@@ -4,8 +4,7 @@ from tkinter import ttk
 import threading
 from shockcart import Shockcart # bringing in the Shockcart class
 from datetime import datetime
-cart1 = Shockcart(30,30) # instance of shockcart args(cycle_count,cycle_time)
-# this is the full test 30 hours! 1 cycle 1 hour
+cart1 = Shockcart(3,10) # instance of shockcart args(cycle_count,cycle_time)
 
 ##############################################
 #       GUI app that works with shockcart.py class 
@@ -14,12 +13,14 @@ cart1 = Shockcart(30,30) # instance of shockcart args(cycle_count,cycle_time)
 #       have to run this to manually set the touchscreen input for monitor number 2
 #       compile with 
 #
-#  
+# oneliner push 
+# git add shockcart.py shockcartUI.py;git commit -m 'temp logging';git push
 ##############################################
 
 
 #########VARS###########
 app = tk.Tk()
+app.geometry("1024x600")
 temp_data = tk.StringVar()
 counter_num = tk.StringVar()
 timer_num = tk.StringVar()

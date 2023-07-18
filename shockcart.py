@@ -66,6 +66,7 @@ class Shockcart():
     
     def hot_loop_enable(self,enabled = False): # default to off
         r2.RESET(1)
+        r2.relayON(1,8) # turn fan on 
         if enabled:
             r2.relayON(1,self.hot_in)
             r2.relayON(1,self.hot_out)
@@ -77,6 +78,7 @@ class Shockcart():
                 
     def cold_loop_enable(self,enabled = False): # default to off
         r2.RESET(1)
+        r2.relayON(1,8) # turn fan on 
         if enabled:
             r2.relayON(1,self.cold_in)
             r2.relayON(1,self.cold_out)
@@ -138,11 +140,18 @@ class Shockcart():
         return current_datetime.strftime('%Y%m%d%I%M')
     
     def temp_logger(self):
+        headers = ["Time","InletTemp","OutletTemp"]
         while True:
-            
             with open(self.log_file_path, 'a',newline='') as logfile:
                 write_csv = csv.writer(logfile)
-                write_csv.writerow([time.ctime(), f"Input: {self.read_temp_test()[0]} Output: {self.read_temp_test()[1]}"])
+                if logfile.tell() == 0:
+                    write_csv.writerow(headers)
+                    # means if when you open the file and the tell pointer is at 0, then the file is empty (because its at position 0 when entering)
+                    # can use whole integers because tell is reflection of the acutal byte/binary position of the pointer/cursor
+                    # if tell equals 0 then we can add the headers to the file 
+                    
+                write_csv.writerow([time.ctime(), self.read_temp_test()[0],self.read_temp_test()[1]]) # write corresponding data from thise list to the headers list
+            
             time.sleep(5)
             
     def temp_logger_process(self):
@@ -205,9 +214,9 @@ class Shockcart():
             self.relay_plate_reset()
 
     def read_temp_test(self):
-        chan1= f"Channel 1: {str(th.getTEMP(2,1))} C"
-        chan2 = f"Channel 2: {str(th.getTEMP(2,2))} C"
-        return [chan1, chan2]
+        th.setTYPE(2,1,'k')
+        th.setTYPE(2,2,'k')
+        return [th.getTEMP(2,1), th.getTEMP(2,2)]
 
     def get_counter(self,):
         return self.counter
