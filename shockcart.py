@@ -90,7 +90,7 @@ class Shockcart():
         #print(seconds)
         return seconds
     
-    def create_timer(self):
+    def set_time(self):
         # when called start time is set to current time
         # can call this function inside the while loop of the run_loop to reset the counter
         self.start_time = time.time()
@@ -98,7 +98,7 @@ class Shockcart():
     def test_time(self):
         # need a function that has an updating but verbose timer that shows minutes:seconds and updates every second
         elapsed = time.time() - self.start_time
-        minutes = int(elapsed // 60) # seconds may be < 60 how many times does seconds go into 60, integer rounding DOWN
+        minutes = int(elapsed // 60) # seconds may be < 60, how many times does seconds go into 60, integer division, rounding DOWN
         seconds = int(elapsed % 60) # seconds can go into 60 with how much remainder, aka excluding minutes
         return (f"{minutes}:{seconds}")
         
@@ -139,10 +139,10 @@ class Shockcart():
     def run_loop(self):
         sec = self.convert_seconds # so you can like locally rename a self.object in a function for compact function calls
         cycle_time = self.cycle_time
-        self.test_start_time = 0
         while self.counter <= self.cycle_count:
+            self.set_time() # reset the time to current time before every cycle
             print(f"while start\nCounter={self.counter}/{self.cycle_count}") 
-
+            
             ####HOT##############
             self.hot_loop_enable(True)
             print("HOT wait 5 seconds")
@@ -171,6 +171,7 @@ class Shockcart():
 
     def run_loop_process(self):
         if not self.process.is_alive():
+            self.start_time = time.time()
             print("starting process")
             self.process.start()
 

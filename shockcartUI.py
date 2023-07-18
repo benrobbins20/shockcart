@@ -22,6 +22,10 @@ app = tk.Tk()
 temp_data = tk.StringVar()
 counter_num = tk.StringVar()
 timer_num = tk.StringVar()
+run_var = tk.StringVar()
+run_flag = tk.BooleanVar() # pre-define a bool that we'll use to set a run flag
+
+# define windows/frame objects
 info_frame = tk.Frame(app,bg="light blue",border=5,relief="groove")
 button_frame = tk.Frame(app,bg="light green",border=5,relief="groove")
 pad_frame = tk.Canvas(app,bg="light pink",border=5,relief="groove")
@@ -38,16 +42,26 @@ reset_relay_button = ttk.Button(
     command=lambda: cart1.relay_plate_reset()
 )
 
+# slightly changed run function, instead of run button starting the shockcart run process
+# make a function that runs the run_button functtion but also sets a flag so that we can start a timer
+
+def test_start():
+    cart1.run_loop_process()
+    run_flag.set(True)
+
 run_button = ttk.Button(
     button_frame,
-    text=f"run",
-    command=lambda: cart1.run_loop_process()
+    text=f"\t\tRUN\n{cart1.cycle_count} Cycles {cart1.cycle_time * 2} Minutes Per Cycle",
+    command=test_start,
 )
-
+def kill():
+    cart1.kill_loop_process() # terminate the run process
+    run_flag.set(False) # reset run_flag to False which changes update_timer() function to set the timer back to zero
+    
 kill_button = ttk.Button(
     button_frame,
     text=f"kill",
-    command=lambda: cart1.kill_loop_process()
+    command=kill
 )
 
 cold_loop_button = ttk.Button(
@@ -61,6 +75,8 @@ hot_loop_button = ttk.Button(
     text=f"Hot loop on",
     command=lambda: cart1.hot_loop_enable(True)
 )
+
+################# STATUS WINDOW ######################
 
 display_temp_label = tk.Label(
     info_frame, 
@@ -76,6 +92,7 @@ def update_temp_data():
 status_label = tk.Label(
     info_frame,
     text="Status",
+    font=("Helvetica", 16, "bold"),
 )
 
 counter_label = tk.Label(
@@ -83,6 +100,20 @@ counter_label = tk.Label(
     textvariable=counter_num,
     )
 
+run_label = tk.Label(
+    info_frame,
+    textvariable=run_var,
+)
+def update_run_status():
+    if run_flag.get():
+        run_var.set(f"Test In Progress")
+        run_label.config(fg='green')
+    else:
+        run_var.set("Inactive... Press RUN to begin test")
+        run_label.config(fg='red')
+    app.after(1000,update_run_status)
+    
+        
 def update_counter():
     new_counter_num = cart1.get_counter()
     counter_num.set(f"Cycle Count\n{new_counter_num}/{cart1.cycle_count}")
@@ -94,9 +125,15 @@ timer_label = tk.Label(
     )
 
 def update_timer():
-    timer_num.set(f"Timer\n{cart1.test_time()}/{cart1.cycle_time}")
+    if run_flag.get(): # if the run flag was set to true
+        timer_num.set(f"Timer\n{cart1.test_time()}/{cart1.cycle_time}")
+    else: # just put 0 minutes out of cycle_time minutes
+        timer_num.set(f"Timer\n0/{cart1.cycle_time}")
     app.after(1000,update_timer)
     
+    
+################# STATUS WINDOW ######################
+
 def connect_objects(b1, b2):
     # connect line between button 1 and button 2
     # calculate center point of button
@@ -141,16 +178,18 @@ run_button.pack()
 kill_button.pack()
 fill_button.pack()
 
+##########STATUS#############
 info_frame.pack(side="right",expand="true",fill="both")
 status_label.pack()
+run_label.pack()
 display_temp_label.pack()
-
+update_run_status()
 update_temp_data()
 counter_label.pack()
-cart1.create_timer()
 timer_label.pack()
 update_counter()
 update_timer()
+##########STATUS#############
 
 ###############PACK###################
 
