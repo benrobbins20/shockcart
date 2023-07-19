@@ -237,8 +237,8 @@ class Shockcart():
         
 # #testing
 
-cart1 = Shockcart(3,3)
+#cart1 = Shockcart(3,3)
 # print(cart1.read_temp_test())
-print(cart1.relay_status())
+#print(cart1.relay_status())
 
 

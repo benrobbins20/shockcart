@@ -36,6 +36,15 @@ terminal_frame = tk.Frame(app,width=1024,height=200)
 
 ##############BUTTONS################
 
+def test_start():
+    cart1.run_loop_process()
+    cart1.temp_logger_process()
+    run_flag.set(True)
+
+def kill():
+    cart1.kill_loop_process() # terminate the run process
+    run_flag.set(False) # reset run_flag to False which changes update_timer() function to set the timer back to zero
+
 fill_button = ttk.Button(
     button_frame,
     text='Fill',
@@ -88,14 +97,7 @@ hot_loop_button = ttk.Button(
 # slightly changed run function, instead of run button starting the shockcart run process
 # make a function that runs the run_button functtion but also sets a flag so that we can start a timer
 
-def test_start():
-    cart1.run_loop_process()
-    cart1.temp_logger_process()
-    run_flag.set(True)
 
-def kill():
-    cart1.kill_loop_process() # terminate the run process
-    run_flag.set(False) # reset run_flag to False which changes update_timer() function to set the timer back to zero
 
 ####################/BUTTONS/############################
 
@@ -174,8 +176,9 @@ def get_size(widget):
 
 def update_pad_buttons():
   bit_list = cart1.relay_status()
+  #print(bit_list)
   for bit in range(len(bit_list)):
-      print(bit)
+    print(bit)
   
   #app.after(1000,update_pad_buttons)
   
