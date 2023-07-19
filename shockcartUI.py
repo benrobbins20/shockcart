@@ -21,6 +21,7 @@ cart1 = Shockcart(3,10) # instance of shockcart args(cycle_count,cycle_time)
 #########VARS###########
 app = tk.Tk()
 app.geometry("1024x600")
+
 temp_data = tk.StringVar()
 counter_num = tk.StringVar()
 timer_num = tk.StringVar()
@@ -28,9 +29,11 @@ run_var = tk.StringVar()
 run_flag = tk.BooleanVar() # pre-define a bool that we'll use to set a run flag
 
 # define windows/frame objects
-info_frame = tk.Frame(app,bg="light blue",border=5,relief="groove")
-button_frame = tk.Frame(app,bg="light green",border=5,relief="groove")
-pad_frame = tk.Canvas(app,bg="light pink",border=5,relief="groove")
+
+button_frame = tk.Frame(app,bg="light green",border=5,relief="groove",width=190,height=200)
+pad_canvas = tk.Canvas(app,bg="light pink",border=5,relief="groove",width=822,height=388)
+info_frame = tk.Frame(app,bg="light blue",border=5,relief="groove",width=190,height=200)
+terminal_frame = tk.Frame(app,width=1024,height=200)
 
 fill_button = ttk.Button(
     button_frame,
@@ -146,8 +149,21 @@ def update_timer():
         timer_num.set(f"Timer\n0/{cart1.cycle_time}")
     app.after(1000,update_timer)
     
+def get_position(app, widget): # function takes the app/root position and then add where the x starts, same for y, 
+    x = app.winfo_rootx() + widget.winfo_x()
+    y = app.winfo_rooty() + widget.winfo_y()
+    print(f"get positon function\napp position x:{app.winfo_rootx()} y:{app.winfo_rooty()}\nwidget position x:{widget.winfo_x()} y:{widget.winfo_y()}")
+    return (x, y)
     
-################# STATUS WINDOW ######################
+def get_size(widget):
+    x = widget.winfo_width()
+    y = widget.winfo_height()
+    print(
+        f"get size function\n",
+        f"name: {widget}\nx:{x} y:{y}",
+    )
+    return (x,y)
+################# /STATUS WINDOW/ ######################
 
 def connect_objects(b1, b2):
     # connect line between button 1 and button 2
@@ -157,7 +173,7 @@ def connect_objects(b1, b2):
     #print(f"Button 1 coords:{b1_center}\nButton 2 coords:{b2_center}") # shows the coords 
     
     # draw line
-    pad_frame.create_line(b1_center, b2_center)    
+    pad_canvas.create_line(b1_center, b2_center)    
     
 # follow scheme of numbering
     # cold_out = 1
@@ -168,35 +184,29 @@ def connect_objects(b1, b2):
     # hot_out = 6
     # pump = 7
     # fan = 8
-   
-co1 = tk.Button(pad_frame,text="Cold Outlet")
-cb2 = tk.Button(pad_frame,text="Cold Bypass")
-ci3 = tk.Button(pad_frame,text="Cold In")
-hb4 = tk.Button(pad_frame,text="Hot Bypass")
-hi5 = tk.Button(pad_frame,text="Hot In")
-ho6 = tk.Button(pad_frame,text="Hot Out")
-# not in the flow (ish) diagram layout, will be set aside in the frame
-pump_7 = tk.Button(pad_frame,text="Pump")
-fan_8 = tk.Button(pad_frame,text="Fan")
+pad_label = tk.Label(pad_canvas,text="Relay Control Pad",font=("Helvetica", 16, "bold"))
+co1 = tk.Button(pad_canvas,text="Cold Outlet")
+cb2 = tk.Button(pad_canvas,text="Cold Bypass")
+ci3 = tk.Button(pad_canvas,text="Cold In")
+hb4 = tk.Button(pad_canvas,text="Hot Bypass")
+hi5 = tk.Button(pad_canvas,text="Hot In")
+ho6 = tk.Button(pad_canvas,text="Hot Out")
 
-junc_to_mut = tk.Label(pad_frame,text="TEE")
-junc_from_mut = tk.Label(pad_frame, text="TEE")
-mut_outlet = tk.Label(pad_frame, text="MUT Outlet")
-mut_inlet = tk.Label(pad_frame, text="MUT Inlet")
+# not in the flow (ish) diagram layout, will be set aside in the frame
+pump_7 = tk.Button(pad_canvas,text="Pump")
+fan_8 = tk.Button(pad_canvas,text="Fan")
+
+junc_to_mut = tk.Label(pad_canvas,text="TEE")
+junc_from_mut = tk.Label(pad_canvas, text="TEE")
+mut_outlet = tk.Label(pad_canvas, text="MUT Outlet")
+mut_inlet = tk.Label(pad_canvas, text="MUT Inlet")
 
 ###############PACK###################
-button_frame.pack(side="left",expand="true",fill="both")
-hot_loop_button.pack()
-cold_loop_button.pack()
-reset_relay_button.pack()
-run_button.pack()
-kill_button.pack()
-fill_button.pack()
-log_button.pack()
-stop_log.pack()
+
 
 ##########STATUS#############
-info_frame.pack(side="right",expand="true",fill="both")
+info_frame.place(x=0,y=0)
+info_frame.pack_propagate(False)
 status_label.pack()
 run_label.pack()
 display_temp_label.pack()
@@ -206,11 +216,26 @@ counter_label.pack()
 timer_label.pack()
 update_counter()
 update_timer()
+
+button_frame.place(x=0,y=200)
+button_frame.pack_propagate(False)
+hot_loop_button.pack()
+cold_loop_button.pack()
+reset_relay_button.pack()
+run_button.pack()
+kill_button.pack()
+fill_button.pack()
+log_button.pack()
+stop_log.pack()
 ##########STATUS#############
 
 ###############PACK###################
 
 ####PAD#GRID##########
+
+pad_canvas.place(x=190,y=0)
+pad_canvas.grid_propagate(False)
+
 
 # approx layout
 # see how good I can do with grid
@@ -224,28 +249,44 @@ update_timer()
 #                                          CI                       #
 #                                                                   #
 #                                                      CB           #
-#                                                                   #    
-#  res                               CO                             #
+#  fan                                                              #    
+#  pump                              CO                             #
 #####################################################################
 ####PAD#GRID##########
 #test_button.pack()
-co1.grid(row=9,column=14,pady=10)
-cb2.grid(row=8,column=18, padx=5, pady=10)
-ci3.grid(row=7, column=16, padx=10, pady=10)
-hb4.grid(row=2,column=4,padx=5)
-hi5.grid(row=5,column=7)
-ho6.grid(row=1,column=6, padx=15,pady=5)
-pump_7.grid(column=1, pady=5, padx=5)
-fan_8.grid(column=1, pady=5,padx=5)
-# junctions
-junc_to_mut.grid(row=1,column=16)
-junc_from_mut.grid(row=5,column=14)
-# ports
-mut_outlet.grid(row=1,column=18)
-mut_inlet.grid(row=5, column=18)
+# arranging in order of column upper left to lower right
+pad_label.grid(row=1,column=6, sticky='ew') # sticky east/west means the widget will stretch horizantally to fill the space provided 500X300 ish
+pad_canvas.grid_columnconfigure((0,1,2,3,4,5,6,7,8,9,10,11,12), weight=1)
+pad_canvas.grid_rowconfigure((0,1,2,3,4,5,6,7,8,9,10,11,12), weight=1)
+
+# Adjusted grid placement
+hb4.grid(row=4, column=1, sticky='ew')
+ho6.grid(row=3, column=2, sticky='ew')
+junc_to_mut.grid(row=3, column=7,)
+hi5.grid(row=5, column=3, sticky='ew')
+co1.grid(row=8, column=6, sticky='ew')
+junc_from_mut.grid(row=5, column=6,)
+cb2.grid(row=7, column=10, sticky='ew')
+ci3.grid(row=6, column=7, sticky='ew')
+
+pump_7.grid(row=1, column=1, sticky='ew')
+fan_8.grid(row=1, column=2, sticky='ew')
+
+mut_outlet.grid(row=3,column=10, sticky='ew')
+mut_inlet.grid(row=5, column=10, sticky='ew')
 
 # have to update the app before trying to get the coords 
 app.update()
+# after update get the positions off the windows so i can psotion them better
+
+# print(get_position(app,pad_canvas))
+# print(get_position(app,button_frame))
+# print(get_position(app,pad_canvas))
+# print(get_size(button_frame))
+# print(get_size(pad_canvas))
+# print(get_size(info_frame))
+
+
 
 ## test drawing lines
 # point to point = center coord to center coord
@@ -262,9 +303,12 @@ connect_objects(hi5,junc_from_mut)
 connect_objects(junc_from_mut, mut_inlet)
 connect_objects(junc_to_mut, mut_outlet)
 
+###########TERMINAL###############
+terminal_frame.place(x=0,y=400)
+window_id = terminal_frame.winfo_id()
+# print(window_id) # returns id for graphical object that we can bind xterm to, how neat 
+os.system('xterm -fg "pink" -fa "Monospace" -fs 12 -bg "#808080" -into %d -geometry 1024x200 -sb &' % window_id)
 
-
-pad_frame.pack(side="bottom")
 
 try:
     app.title('Shockcart')
