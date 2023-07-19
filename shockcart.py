@@ -23,8 +23,9 @@ class Shockcart():
         # init stuff define general parameters that we'll need
 
         # piplate id
-        #daqc2_plate = channel 0
-        #relay_plate2 = channel 1
+        # daqc2_plate = channel 0
+        # relay_plate2 = channel 1
+        # thermoplate2 = channel 2
         
         # you can access the class variables from the constructor or anywhere
         #print(self.pump)
@@ -33,6 +34,7 @@ class Shockcart():
         # r2.relayON(relay_plate2, cold_out)
         # its simple to memorize board numbers 
         # can substitute 0 or 1 instead its just a helper 
+        # probably never use 
 
         # cycle_time parameter is in minutes ie 30 minutes
         # cycle_count indicates how many cycles, a cycle is 1 hot and 1 cold 
@@ -63,11 +65,14 @@ class Shockcart():
             return
     
     def relay_plate_reset(self):
-        r2.RESET(1)
-    
+        # would like to leave fan on all the time when a test is running but I'm out of buttons, damn
+        # just use a loop for now 
+        for i in range(1,8):
+            # excludes 8
+            r2.relayOFF(1,i)
+            
     def hot_loop_enable(self,enabled = False): # default to off
-        r2.RESET(1)
-        r2.relayON(1,8) # turn fan on 
+        self.relay_plate_reset()
         if enabled:
             r2.relayON(1,self.hot_in)
             r2.relayON(1,self.hot_out)
@@ -78,8 +83,7 @@ class Shockcart():
             r2.relayOFF(1,self.cold_bypass)
                 
     def cold_loop_enable(self,enabled = False): # default to off
-        r2.RESET(1)
-        r2.relayON(1,8) # turn fan on 
+        self.relay_plate_reset()
         if enabled:
             r2.relayON(1,self.cold_in)
             r2.relayON(1,self.cold_out)
@@ -114,8 +118,8 @@ class Shockcart():
         # list of integers that can be interpreted as 8 bit binary 
         # we have 8 relays
         # we have 8 corresponding bits
+        
         ##############EXAMPLE############
-        # 
         # bypass relay is number 4
         # in binary -> 00001000
         # 4th relay bit is set to 1
@@ -123,13 +127,16 @@ class Shockcart():
         # all off 00000000
         # REVERSE THE ORDER OF THE STRING FOR MY SANITY
         # relay 4 will be 00010000
+        ########/EXAMPLE/###########
+        
+        self.relay_state_list = [] # clear the list before calling it again
         integer = (r2.relaySTATE(1)) # pi-plates annoyingly returns intger for state
-        binary = format(integer, 'b')
+        binary = format(integer, 'b') # convert integer to 8 bit binary representation
+        
         # quickie string reversal
         # this means [start index:endindex:how we are skipping]
-        # empty means implied index, so first index, last index, and then we are moving backwards one index at a time 
+        # empty means implied index, so [first index:last index:move backwards one index at a time] 
         binary = binary[::-1] # turn the bits around to reflect relays 1-8, 
-        #print(type(self.binary))
         while len(binary) < 8: # only shows bits up until the last bit engaged
             binary = binary + '0' # just add string '0' until length is 8
             # DOES NOT RUN IF 8th BIT IS SET!! which is our fan we might just run that the whole time
@@ -229,11 +236,12 @@ class Shockcart():
         th.setTYPE(2,2,'k')
         return [th.getTEMP(2,1), th.getTEMP(2,2)]
 
-    def get_counter(self,):
+    def get_counter(self):
         return self.counter
     
     def toggle_relay(self,num):
-        r2.relayOn(1,num)
+        print(num)
+        r2.relayTOGGLE(1,num)
         
 # #testing
 

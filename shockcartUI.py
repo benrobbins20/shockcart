@@ -14,7 +14,7 @@ cart1 = Shockcart(3,10) # instance of shockcart args(cycle_count,cycle_time)
 #       compile with 
 #
 # oneliner push 
-# git add shockcart.py shockcartUI.py;git commit -m 'temp logging';git push
+# command=lambda:cart1.toggle_relay(1)
 ##############################################
 
 
@@ -150,8 +150,9 @@ def update_counter():
     app.after(1000,update_counter)
 
 def update_timer():
+    total_run_time = (cart1.cycle_time * 2) * cart1.cycle_count 
     if run_flag.get(): # if the run flag was set to true
-        timer_num.set(f"Timer\n{cart1.test_time()}/{cart1.cycle_time}")
+        timer_num.set(f"Timer\n{cart1.test_time()}/{total_run_time}")
     else: # just put 0 minutes out of cycle_time minutes
         timer_num.set(f"Timer\n0/{cart1.cycle_time}")
     app.after(1000,update_timer)
@@ -175,14 +176,30 @@ def get_size(widget):
     return (x,y)
 
 def update_pad_buttons():
-  bit_list = cart1.relay_status()
-  #print(bit_list)
-  for bit in range(len(bit_list)):
-    print(bit)
-  
-  #app.after(1000,update_pad_buttons)
-  
+    bit_list = cart1.relay_status()
+    button_list = [co1,cb2,ci3,hb4,hi5,ho6,pump_7,fan_8]
+    for index in range(len(bit_list)):
+        # 0th index!!
+        if bit_list[index] == '1':
+            button_list[index].config(bg='green')
+        else:
+            button_list[index].config(bg='grey')
+    app.after(1000,update_pad_buttons)
     
+def update_command():
+    # going to just brute force this one
+    # manually set each button to its relay
+    # IF NOT RUNNING test
+    if not run_flag.get():
+        co1.config(command=lambda:cart1.toggle_relay(1))
+        cb2.config(command=lambda:cart1.toggle_relay(2))
+        ci3.config(command=lambda:cart1.toggle_relay(3))
+        hb4.config(command=lambda:cart1.toggle_relay(4))
+        hi5.config(command=lambda:cart1.toggle_relay(5))
+        ho6.config(command=lambda:cart1.toggle_relay(6))
+        pump_7.config(command=lambda:cart1.toggle_relay(7))
+        fan_8.config(command=lambda:cart1.toggle_relay(8))
+    app.after(1000,update_command)
     
 ####################PADFRAME#######################
 
@@ -222,6 +239,10 @@ junc_to_mut = tk.Label(pad_canvas,text="TEE")
 junc_from_mut = tk.Label(pad_canvas, text="TEE")
 mut_outlet = tk.Label(pad_canvas, text="MUT Outlet")
 mut_inlet = tk.Label(pad_canvas, text="MUT Inlet")
+
+
+
+
 ####################/PADFRAME/#######################
 
 ##########STATUS#############
@@ -248,6 +269,7 @@ cold_loop_button.pack()
 reset_relay_button.pack()
 fill_button.pack()
 # i ran out of room, need to restructure gui
+# run test will start log
 #log_button.pack()
 #stop_log.pack()
 ##############/BUTTONS/###########
@@ -326,12 +348,13 @@ connect_objects(junc_to_mut, mut_outlet)
 
 # test relay status
 update_pad_buttons()
+update_command()
 
 ###########TERMINAL###############
 terminal_frame.place(x=0,y=400)
 window_id = terminal_frame.winfo_id()
 # print(window_id) # returns id for graphical object that we can bind xterm to, how neat 
-os.system('xterm -fg "pink" -fa "Monospace" -fs 12 -bg "#808080" -into %d -geometry 1024x200 -sb &' % window_id)
+os.system('xterm -fg "black" -fa "Monospace" -fs 12 -bg "#808080" -into %d -geometry 1024x200 -sb &' % window_id)
 
 try:
     app.title('Shockcart')
