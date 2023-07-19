@@ -70,6 +70,9 @@ class Shockcart():
         for i in range(1,8):
             # excludes 8
             r2.relayOFF(1,i)
+
+    def hard_reset(self):
+        r2.RESET(1)
             
     def hot_loop_enable(self,enabled = False): # default to off
         self.relay_plate_reset()
@@ -240,13 +243,24 @@ class Shockcart():
         return self.counter
     
     def toggle_relay(self,num):
-        print(num)
         r2.relayTOGGLE(1,num)
+        #print(self.relay_status())
+    
+    def manual_toggle(self,num):
+        if self.relay_status()[num-1] == '0':
+            r2.relayON(1,num)
+        elif self.relay_status()[num-1] == '1':
+            r2.relayOFF(1,num)
+        
         
 # #testing
 
 #cart1 = Shockcart(3,3)
 # print(cart1.read_temp_test())
 #print(cart1.relay_status())
+#r2.relayTOGGLE(1,5)
+#r2.relayTOGGLE(1,3)
+#r2.relayTOGGLE(1,all)
+
 
 

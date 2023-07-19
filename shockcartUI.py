@@ -14,7 +14,7 @@ cart1 = Shockcart(3,10) # instance of shockcart args(cycle_count,cycle_time)
 #       compile with 
 #
 # oneliner push 
-# command=lambda:cart1.toggle_relay(1)
+# git add shockcart.py shockcartUI.py;git commit -m 'toggle not working only on relay 3???';git push
 ##############################################
 
 
@@ -183,24 +183,34 @@ def update_pad_buttons():
         if bit_list[index] == '1':
             button_list[index].config(bg='green')
         else:
-            button_list[index].config(bg='grey')
+            button_list[index].config(bg='light grey')
     app.after(1000,update_pad_buttons)
     
 def update_command():
     # going to just brute force this one
     # manually set each button to its relay
-    # IF NOT RUNNING test
+    # IF NOT RUNNING TEST
+    # bug for relay 3, might as well loop through index 0-7 and check relay state list and toggle that way
     if not run_flag.get():
         co1.config(command=lambda:cart1.toggle_relay(1))
         cb2.config(command=lambda:cart1.toggle_relay(2))
-        ci3.config(command=lambda:cart1.toggle_relay(3))
+        
         hb4.config(command=lambda:cart1.toggle_relay(4))
         hi5.config(command=lambda:cart1.toggle_relay(5))
         ho6.config(command=lambda:cart1.toggle_relay(6))
         pump_7.config(command=lambda:cart1.toggle_relay(7))
         fan_8.config(command=lambda:cart1.toggle_relay(8))
+        
+        # relay 3 doesn't toggle...
+        # so i need to query the state for this one relay,
+        # freakin bummer
+        ci3.config(command=lambda:cart1.manual_toggle(3))
     app.after(1000,update_command)
-    
+
+
+def on_exit():
+    cart1.hard_reset()
+    app.destroy()
 ####################PADFRAME#######################
 
 def connect_objects(b1, b2):
@@ -358,6 +368,7 @@ os.system('xterm -fg "black" -fa "Monospace" -fs 12 -bg "#808080" -into %d -geom
 
 try:
     app.title('Shockcart')
+    app.protocol("WM_DELETE_WINDOW",on_exit) # set the exit strategy
     app.mainloop()
     
 except KeyboardInterrupt:
