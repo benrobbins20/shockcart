@@ -48,6 +48,7 @@ class Shockcart():
         # define an instance variable for the test start time
         # define it here but dont assign it to time.time() yet
         self.start_time = 0
+        self.relay_state_list = []
 
     def fill(self,enable):
         # fill is going to go IN through the COLD_OUTLET
@@ -110,7 +111,6 @@ class Shockcart():
         
     def relay_status(self):
         # heres a fun one 
-        # below is a list of pump run criteria
         # list of integers that can be interpreted as 8 bit binary 
         # we have 8 relays
         # we have 8 corresponding bits
@@ -121,10 +121,21 @@ class Shockcart():
         # 4th relay bit is set to 1
         # all on 11111111
         # all off 00000000
-        self.allow_pump = [8,]
-        integer = (r2.relaySTATE(1))
-        self.binary = format(integer, 'b')
-        print(integer,self.binary)
+        # REVERSE THE ORDER OF THE STRING FOR MY SANITY
+        # relay 4 will be 00010000
+        integer = (r2.relaySTATE(1)) # pi-plates annoyingly returns intger for state
+        binary = format(integer, 'b')
+        # quickie string reversal
+        # this means [start index:endindex:how we are skipping]
+        # empty means implied index, so first index, last index, and then we are moving backwards one index at a time 
+        binary = binary[::-1] # turn the bits around to reflect relays 1-8, 
+        #print(type(self.binary))
+        while len(binary) < 8: # only shows bits up until the last bit engaged
+            binary = binary + '0' # just add string '0' until length is 8
+            # DOES NOT RUN IF 8th BIT IS SET!! which is our fan we might just run that the whole time
+        for bit in binary:
+            self.relay_state_list.append(bit)
+        return self.relay_state_list
     
     def full_bypass(self,enabled=False):
         if enabled:
@@ -226,5 +237,8 @@ class Shockcart():
         
 # #testing
 
-# cart1 = Shockcart(3,3)
+cart1 = Shockcart(3,3)
 # print(cart1.read_temp_test())
+print(cart1.relay_status())
+
+

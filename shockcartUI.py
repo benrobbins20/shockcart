@@ -21,7 +21,6 @@ cart1 = Shockcart(3,10) # instance of shockcart args(cycle_count,cycle_time)
 #########VARS###########
 app = tk.Tk()
 app.geometry("1024x600")
-
 temp_data = tk.StringVar()
 counter_num = tk.StringVar()
 timer_num = tk.StringVar()
@@ -35,6 +34,8 @@ pad_canvas = tk.Canvas(app,bg="light pink",border=5,relief="groove",width=822,he
 info_frame = tk.Frame(app,bg="light blue",border=5,relief="groove",width=190,height=200)
 terminal_frame = tk.Frame(app,width=1024,height=200)
 
+##############BUTTONS################
+
 fill_button = ttk.Button(
     button_frame,
     text='Fill',
@@ -43,26 +44,16 @@ fill_button = ttk.Button(
 
 reset_relay_button = ttk.Button(
     button_frame,
-    text="Reset all relays",
+    text="Reset Relays",
     command=lambda: cart1.relay_plate_reset()
 )
 
-# slightly changed run function, instead of run button starting the shockcart run process
-# make a function that runs the run_button functtion but also sets a flag so that we can start a timer
-
-def test_start():
-    cart1.run_loop_process()
-    run_flag.set(True)
-
 run_button = ttk.Button(
     button_frame,
-    text=f"\tRUN\n{cart1.cycle_count} Cycles {cart1.cycle_time * 2} Minutes Per Cycle",
+    text=f"             RUN\n{cart1.cycle_count} Cycles:{cart1.cycle_time * 2} Minutes",
     command=test_start,
 )
-def kill():
-    cart1.kill_loop_process() # terminate the run process
-    run_flag.set(False) # reset run_flag to False which changes update_timer() function to set the timer back to zero
-    
+
 log_button = tk.Button(
     button_frame,
     text=f"Start temp log\n{cart1.set_datetime()}",
@@ -75,10 +66,11 @@ stop_log = tk.Button(
     command=cart1.kill_temp_logging,
 )
 
-kill_button = ttk.Button(
+kill_button = tk.Button(
     button_frame,
-    text=f"kill",
-    command=kill
+    text=f"STOP TEST",
+    command=kill,
+    fg='red',   
 )
 
 cold_loop_button = ttk.Button(
@@ -93,6 +85,20 @@ hot_loop_button = ttk.Button(
     command=lambda: cart1.hot_loop_enable(True)
 )
 
+# slightly changed run function, instead of run button starting the shockcart run process
+# make a function that runs the run_button functtion but also sets a flag so that we can start a timer
+
+def test_start():
+    cart1.run_loop_process()
+    cart1.temp_logger_process()
+    run_flag.set(True)
+
+def kill():
+    cart1.kill_loop_process() # terminate the run process
+    run_flag.set(False) # reset run_flag to False which changes update_timer() function to set the timer back to zero
+
+####################/BUTTONS/############################
+
 ################# STATUS WINDOW ######################
 
 display_temp_label = tk.Label(
@@ -100,11 +106,6 @@ display_temp_label = tk.Label(
     textvariable=temp_data,
     relief="ridge",
 )
-
-def update_temp_data():
-    new_data = cart1.read_temp_test()
-    temp_data.set("UUT Temp\n"+str(new_data))
-    app.after(1000,update_temp_data)
 
 status_label = tk.Label(
     info_frame,
@@ -115,32 +116,36 @@ status_label = tk.Label(
 counter_label = tk.Label(
     info_frame,
     textvariable=counter_num,
-    )
+)
 
 run_label = tk.Label(
     info_frame,
     textvariable=run_var,
 )
 
+timer_label = tk.Label(
+    info_frame,
+    textvariable=timer_num,
+)
+
+def update_temp_data():
+    new_data = cart1.read_temp_test()
+    temp_data.set("UUT Temp\n"+str(new_data))
+    app.after(1000,update_temp_data)
+
 def update_run_status():
     if run_flag.get():
         run_var.set(f"Test In Progress")
         run_label.config(fg='green')
     else:
-        run_var.set("Inactive... Press RUN to begin test")
+        run_var.set("Test Inactive")
         run_label.config(fg='red')
     app.after(1000,update_run_status)
-    
-        
+         
 def update_counter():
     new_counter_num = cart1.get_counter()
     counter_num.set(f"Cycle Count\n{new_counter_num}/{cart1.cycle_count}")
     app.after(1000,update_counter)
-
-timer_label = tk.Label(
-    info_frame,
-    textvariable=timer_num,
-    )
 
 def update_timer():
     if run_flag.get(): # if the run flag was set to true
@@ -149,6 +154,9 @@ def update_timer():
         timer_num.set(f"Timer\n0/{cart1.cycle_time}")
     app.after(1000,update_timer)
     
+################# /STATUS WINDOW/ ######################
+
+##################HELPERFUNCTIONS###################
 def get_position(app, widget): # function takes the app/root position and then add where the x starts, same for y, 
     x = app.winfo_rootx() + widget.winfo_x()
     y = app.winfo_rooty() + widget.winfo_y()
@@ -163,7 +171,17 @@ def get_size(widget):
         f"name: {widget}\nx:{x} y:{y}",
     )
     return (x,y)
-################# /STATUS WINDOW/ ######################
+
+def update_pad_buttons():
+  bit_list = cart1.relay_status()
+  for bit in range(len(bit_list)):
+      print(bit)
+  
+  #app.after(1000,update_pad_buttons)
+  
+    
+    
+####################PADFRAME#######################
 
 def connect_objects(b1, b2):
     # connect line between button 1 and button 2
@@ -196,13 +214,12 @@ ho6 = tk.Button(pad_canvas,text="Hot Out")
 pump_7 = tk.Button(pad_canvas,text="Pump")
 fan_8 = tk.Button(pad_canvas,text="Fan")
 
+# helper labels to draw lines
 junc_to_mut = tk.Label(pad_canvas,text="TEE")
 junc_from_mut = tk.Label(pad_canvas, text="TEE")
 mut_outlet = tk.Label(pad_canvas, text="MUT Outlet")
 mut_inlet = tk.Label(pad_canvas, text="MUT Inlet")
-
-###############PACK###################
-
+####################/PADFRAME/#######################
 
 ##########STATUS#############
 info_frame.place(x=0,y=0)
@@ -216,26 +233,23 @@ counter_label.pack()
 timer_label.pack()
 update_counter()
 update_timer()
+##########/STATUS/#############
 
+##############BUTTONS###########
 button_frame.place(x=0,y=200)
 button_frame.pack_propagate(False)
+run_button.pack()
+kill_button.pack()
 hot_loop_button.pack()
 cold_loop_button.pack()
 reset_relay_button.pack()
-run_button.pack()
-kill_button.pack()
 fill_button.pack()
-log_button.pack()
-stop_log.pack()
-##########STATUS#############
-
-###############PACK###################
+# i ran out of room, need to restructure gui
+#log_button.pack()
+#stop_log.pack()
+##############/BUTTONS/###########
 
 ####PAD#GRID##########
-
-pad_canvas.place(x=190,y=0)
-pad_canvas.grid_propagate(False)
-
 
 # approx layout
 # see how good I can do with grid
@@ -255,17 +269,20 @@ pad_canvas.grid_propagate(False)
 ####PAD#GRID##########
 #test_button.pack()
 # arranging in order of column upper left to lower right
+pad_canvas.place(x=190,y=0)
+pad_canvas.grid_propagate(False) # helps with grid resizing 
+
 pad_label.grid(row=1,column=6, sticky='ew') # sticky east/west means the widget will stretch horizantally to fill the space provided 500X300 ish
 pad_canvas.grid_columnconfigure((0,1,2,3,4,5,6,7,8,9,10,11,12), weight=1)
 pad_canvas.grid_rowconfigure((0,1,2,3,4,5,6,7,8,9,10,11,12), weight=1)
 
-# Adjusted grid placement
+# grid placement
+# hot side
 hb4.grid(row=4, column=1, sticky='ew')
 ho6.grid(row=3, column=2, sticky='ew')
-junc_to_mut.grid(row=3, column=7,)
 hi5.grid(row=5, column=3, sticky='ew')
+# cold side
 co1.grid(row=8, column=6, sticky='ew')
-junc_from_mut.grid(row=5, column=6,)
 cb2.grid(row=7, column=10, sticky='ew')
 ci3.grid(row=6, column=7, sticky='ew')
 
@@ -275,10 +292,14 @@ fan_8.grid(row=1, column=2, sticky='ew')
 mut_outlet.grid(row=3,column=10, sticky='ew')
 mut_inlet.grid(row=5, column=10, sticky='ew')
 
+junc_to_mut.grid(row=3, column=7,)
+junc_from_mut.grid(row=5, column=6,)
+
 # have to update the app before trying to get the coords 
 app.update()
 # after update get the positions off the windows so i can psotion them better
 
+# test positioning
 # print(get_position(app,pad_canvas))
 # print(get_position(app,button_frame))
 # print(get_position(app,pad_canvas))
@@ -286,12 +307,9 @@ app.update()
 # print(get_size(pad_canvas))
 # print(get_size(info_frame))
 
-
-
 ## test drawing lines
 # point to point = center coord to center coord
 
-    
 connect_objects(co1,cb2)
 connect_objects(cb2,ci3)
 connect_objects(hb4,hi5)
@@ -303,16 +321,19 @@ connect_objects(hi5,junc_from_mut)
 connect_objects(junc_from_mut, mut_inlet)
 connect_objects(junc_to_mut, mut_outlet)
 
+# test relay status
+update_pad_buttons()
+
 ###########TERMINAL###############
 terminal_frame.place(x=0,y=400)
 window_id = terminal_frame.winfo_id()
 # print(window_id) # returns id for graphical object that we can bind xterm to, how neat 
 os.system('xterm -fg "pink" -fa "Monospace" -fs 12 -bg "#808080" -into %d -geometry 1024x200 -sb &' % window_id)
 
-
 try:
     app.title('Shockcart')
     app.mainloop()
+    
 except KeyboardInterrupt:
     cart1.relay_plate_reset()
     
