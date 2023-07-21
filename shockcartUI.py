@@ -4,7 +4,7 @@ from tkinter import ttk
 import threading
 from shockcart import Shockcart # bringing in the Shockcart class
 from datetime import datetime
-cart1 = Shockcart(3,10) # instance of shockcart args(cycle_count,cycle_time)
+cart1 = Shockcart(5,30) # instance of shockcart args(cycle_count,cycle_time)
 
 ##############################################
 #       GUI app that works with shockcart.py class 
@@ -12,6 +12,7 @@ cart1 = Shockcart(3,10) # instance of shockcart args(cycle_count,cycle_time)
 #           < xinput map-to-output 6 "HDMI-2" >
 #       have to run this to manually set the touchscreen input for monitor number 2
 #       compile with 
+#       pyinstaller --onefile shockcartUI.py ;sudo chmod +x dist/shockcartUI;cp dist/shockcartUI ~/Desktop
 #
 # oneliner push 
 # git add shockcart.py shockcartUI.py;git commit -m 'toggle not working only on relay 3???';git push
@@ -32,13 +33,13 @@ run_flag = tk.BooleanVar() # pre-define a bool that we'll use to set a run flag
 button_frame = tk.Frame(app,bg="light green",border=5,relief="groove",width=190,height=200)
 pad_canvas = tk.Canvas(app,bg="light pink",border=5,relief="groove",width=822,height=388)
 info_frame = tk.Frame(app,bg="light blue",border=5,relief="groove",width=190,height=200)
-terminal_frame = tk.Frame(app,width=1024,height=200)
+terminal_frame = tk.Frame(app,width=1024,height=180)
 
 ##############BUTTONS################
 
 def test_start():
     cart1.run_loop_process()
-    cart1.temp_logger_process()
+    #cart1.temp_logger_process()
     run_flag.set(True)
 
 def kill():
@@ -65,7 +66,7 @@ run_button = ttk.Button(
 
 log_button = tk.Button(
     button_frame,
-    text=f"Start temp log\n{cart1.set_datetime()}",
+    text=f"Start temp log",
     command=cart1.temp_logger_process,
 )
 
@@ -131,9 +132,13 @@ timer_label = tk.Label(
 )
 
 def update_temp_data():
-    new_data = cart1.read_temp_test()
-    temp_data.set("UUT Temp\n"+str(new_data))
-    app.after(1000,update_temp_data)
+    # read_temp_test not working because bitchass therm plate
+    #new_data = cart1.read_temp_test()
+    
+    # using daq board and adc
+    new_data = cart1.convertTemp()
+    temp_data.set("UUT Temp\n"+str(f"To MUT:{new_data[0]}\nFrom MUT:{new_data[1]}"))
+    app.after(3000,update_temp_data)
 
 def update_run_status():
     if run_flag.get():
@@ -207,7 +212,6 @@ def update_command():
         ci3.config(command=lambda:cart1.manual_toggle(3))
     app.after(1000,update_command)
 
-
 def on_exit():
     cart1.hard_reset()
     app.destroy()
@@ -274,14 +278,14 @@ button_frame.place(x=0,y=200)
 button_frame.pack_propagate(False)
 run_button.pack()
 kill_button.pack()
-hot_loop_button.pack()
-cold_loop_button.pack()
+#hot_loop_button.pack()
+#cold_loop_button.pack()
 reset_relay_button.pack()
 fill_button.pack()
 # i ran out of room, need to restructure gui
 # run test will start log
-#log_button.pack()
-#stop_log.pack()
+log_button.pack()
+stop_log.pack()
 ##############/BUTTONS/###########
 
 ####PAD#GRID##########
@@ -364,7 +368,7 @@ update_command()
 terminal_frame.place(x=0,y=400)
 window_id = terminal_frame.winfo_id()
 # print(window_id) # returns id for graphical object that we can bind xterm to, how neat 
-os.system('xterm -fg "black" -fa "Monospace" -fs 12 -bg "#808080" -into %d -geometry 1024x200 -sb &' % window_id)
+os.system('xterm -fg "black" -fa "Monospace" -fs 12 -bg "#808080" -into %d -geometry 900x150 -sb &' % window_id)
 
 try:
     app.title('Shockcart')

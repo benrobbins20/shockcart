@@ -3,8 +3,9 @@ import piplates.RELAYplate2 as r2
 import piplates.DAQC2plate as d2
 import piplates.THERMOplate as th
 
-import threading, multiprocessing, time, csv
+import threading, multiprocessing, time, csv, traceback
 from datetime import datetime
+from math import log
 
 
 class Shockcart():
@@ -51,6 +52,9 @@ class Shockcart():
         # define it here but dont assign it to time.time() yet
         self.start_time = 0
         self.relay_state_list = []
+        
+        # instance var for daq temperatures
+        self.volt_list = [d2.getADC(0,0),d2.getADC(0,1)]
 
     def fill(self,enable):
         # fill is going to go IN through the COLD_OUTLET
@@ -149,7 +153,7 @@ class Shockcart():
     
     def full_bypass(self,enabled=False):
         if enabled:
-            r2.RESET(1)
+            self.relay_plate_reset()
             r2.relayON(1,self.hot_bypass)
             r2.relayON(1,self.cold_bypass)
         else:
@@ -171,8 +175,8 @@ class Shockcart():
                     # can use whole integers because tell is reflection of the acutal byte/binary position of the pointer/cursor
                     # if tell equals 0 then we can add the headers to the file 
                     
-                write_csv.writerow([time.ctime(), self.read_temp_test()[0],self.read_temp_test()[1]]) # write corresponding data from thise list to the headers list
-            
+                #write_csv.writerow([time.ctime(), self.read_temp_test()[0],self.read_temp_test()[1]]) # write corresponding data from thise list to the headers list
+                write_csv.writerow([time.ctime(), self.convertTemp()[0],self.convertTemp()[1]])
             time.sleep(5)
             
     def temp_logger_process(self):
@@ -193,34 +197,32 @@ class Shockcart():
         sec = self.convert_seconds # so you can like locally rename a self.object in a function for compact function calls
         cycle_time = self.cycle_time
         while self.counter <= self.cycle_count:
-            self.set_time() # reset the time to current time before every cycle
-            print(f"while start\nCounter={self.counter}/{self.cycle_count}") 
             
             ####HOT##############
             self.hot_loop_enable(True)
-            print("HOT wait 5 seconds")
             time.sleep(5) # wait 5 seconds before turning on pump
             r2.relayON(1,self.pump) # check manual switch
             time.sleep(sec(cycle_time))  
             r2.relayOFF(1,self.pump) # turn pump off after cycle time
             self.hot_loop_enable(False) # disable hot loop
+            time.sleep(5)
             self.full_bypass(True) # open both bypasses
 
             ##########COLD##############
             self.cold_loop_enable(True)
-            print("COLD: wait 5 seconds")
             time.sleep(5)
-            r2.relayON(1,self.pump) # hot bypass is enabled can resume hot loop 
+            r2.relayON(1,self.pump) # hot bypass is enabled can resume hot bypass
             time.sleep(sec(cycle_time))
             r2.relayOFF(1,self.pump)
+            self.cold_loop_enable(False)
+            time.sleep(5)
             self.full_bypass(True)
-            self.hot_loop_enable(False)
+
             
             # increment counter 
             self.counter += 1
         # this will execute after cycle completes
-        self.full_bypass()
-        print("while loop done")
+        self.full_bypass(True)
 
     def run_loop_process(self):
         if not self.process.is_alive():
@@ -237,14 +239,19 @@ class Shockcart():
     def read_temp_test(self):
         th.setTYPE(2,1,'k')
         th.setTYPE(2,2,'k')
-        return [th.getTEMP(2,1), th.getTEMP(2,2)]
+        try:
+            temp_list = [th.getTEMP(2,1), th.getTEMP(2,2)]
+            return temp_list
+        except IndexError:
+            traceback.print_exc()
+            temp_list = ['temp error','temp error']
+            return temp_list
 
     def get_counter(self):
         return self.counter
     
     def toggle_relay(self,num):
         r2.relayTOGGLE(1,num)
-        #print(self.relay_status())
     
     def manual_toggle(self,num):
         if self.relay_status()[num-1] == '0':
@@ -252,7 +259,25 @@ class Shockcart():
         elif self.relay_status()[num-1] == '1':
             r2.relayOFF(1,num)
         
-        
+    # this sucks but the temperature board is not working 
+    # i guess i'll see if the daq board will last for the test
+    
+    def convertTemp(self): 
+       
+        self.volt_list = [d2.getADC(0,0),d2.getADC(0,1)]
+        temp_list = []
+        # rt = (10*voltage) / (3.3 - voltage)
+        # rt = (10000*adcValue) / (maxADC)
+        # both of these will work and are accurate!!
+        # since daq plate already grabs the voltage it should be used
+        for volts in self.volt_list:
+            thermResistance = float((10*volts) / (3.3 - volts))
+            tempK = 1/(1/(273.15+25) + log(thermResistance/10)/3950)
+            tempC = round(tempK - 273.15,3)
+            temp_list.append(tempC)
+        return temp_list
+
+    
 # #testing
 
 #cart1 = Shockcart(3,3)
@@ -261,6 +286,6 @@ class Shockcart():
 #r2.relayTOGGLE(1,5)
 #r2.relayTOGGLE(1,3)
 #r2.relayTOGGLE(1,all)
-
+#print(cart1.convertTemp(cart1.volt_list))
 
 
