@@ -39,7 +39,8 @@ class Shockcart():
 
         # cycle_time parameter is in minutes ie 30 minutes
         # cycle_count indicates how many cycles, a cycle is 1 hot and 1 cold 
-        self.counter = 1
+        # this is a shared resource between parent and child proc
+        self.counter = multiprocessing.Value('i',1) # this is something I didn't know, Proc will make its own instance variables and wont edit the parent process varialbes
         self.cycle_count = cycle_count
         self.cycle_time = cycle_time # this defaults to 30 minutes and shouldn't need to change anything
 
@@ -196,8 +197,8 @@ class Shockcart():
     def run_loop(self):
         sec = self.convert_seconds # so you can like locally rename a self.object in a function for compact function calls
         cycle_time = self.cycle_time
-        while self.counter <= self.cycle_count:
-            
+        while self.counter.value <= self.cycle_count:
+            print(f"Cycle start\nCounter:{self.counter.value}")
             ####HOT##############
             self.hot_loop_enable(True)
             time.sleep(5) # wait 5 seconds before turning on pump
@@ -218,9 +219,8 @@ class Shockcart():
             time.sleep(5)
             self.full_bypass(True)
 
-            
             # increment counter 
-            self.counter += 1
+            self.counter.value += 1
         # this will execute after cycle completes
         self.full_bypass(True)
 
@@ -248,7 +248,8 @@ class Shockcart():
             return temp_list
 
     def get_counter(self):
-        return self.counter
+        #print(f"shockcart{self.counter}")
+        return self.counter.value
     
     def toggle_relay(self,num):
         r2.relayTOGGLE(1,num)

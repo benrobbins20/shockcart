@@ -4,7 +4,7 @@ from tkinter import ttk
 import threading
 from shockcart import Shockcart # bringing in the Shockcart class
 from datetime import datetime
-cart1 = Shockcart(5,30) # instance of shockcart args(cycle_count,cycle_time)
+cart1 = Shockcart(2,.5) # instance of shockcart args(cycle_count,cycle_time)
 
 ##############################################
 #       GUI app that works with shockcart.py class 
@@ -45,7 +45,7 @@ def test_start():
 def kill():
     cart1.kill_loop_process() # terminate the run process
     run_flag.set(False) # reset run_flag to False which changes update_timer() function to set the timer back to zero
-
+ 
 fill_button = ttk.Button(
     button_frame,
     text='Fill',
@@ -150,8 +150,8 @@ def update_run_status():
     app.after(1000,update_run_status)
          
 def update_counter():
-    new_counter_num = cart1.get_counter()
-    counter_num.set(f"Cycle Count\n{new_counter_num}/{cart1.cycle_count}")
+    # print(cart1.get_counter())
+    counter_num.set(f"Cycle Count\n{cart1.get_counter()}/{cart1.cycle_count}")
     app.after(1000,update_counter)
 
 def update_timer():
